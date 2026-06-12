@@ -18,7 +18,7 @@ test('process identity distinguishes a reused PID while preserving a live lock',
 });
 
 test('recycled owner recovery preserves saved sessions and still rejects a second writer', async () => {
-  const directory = await mkdtemp(path.join(tmpdir(), 'robinhood-owner-'));
+  const directory = await mkdtemp(path.join(tmpdir(), 'wallstreetclown-owner-'));
   const filename = path.join(directory, 'sessions.db');
   const first = new Store(filename);
   const session = first.create(directory, 'fixture', 'Keep this session');
@@ -37,7 +37,7 @@ test('recycled owner recovery preserves saved sessions and still rejects a secon
   } finally { recovered.close(); }
 });
 
-test('legacy Windows ownership does not mistake an unrelated executable for Robinhood', { skip: process.platform !== 'win32' }, async () => {
+test('legacy Windows ownership does not mistake an unrelated executable for WallStreetClown', { skip: process.platform !== 'win32' }, async () => {
   const child = spawn('powershell.exe', ['-NoProfile', '-NonInteractive', '-Command', 'Write-Output ready; Start-Sleep -Seconds 30'], { windowsHide: true, stdio: ['ignore', 'pipe', 'ignore'] });
   try {
     await once(child.stdout!, 'data');

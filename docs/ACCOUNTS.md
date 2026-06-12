@@ -3,7 +3,7 @@
 > Permission mode: the terminal now defaults to YOLO, which satisfies runtime approval gates without prompting. `--ask` or `/permissions ask` restores per-action confirmations. References below to approval describe the execution gate; interactive confirmation applies in ask mode. Account-dependent requests may consume credits. Plan mode and uncertain-outcome checks remain enforced.
 
 
-Run `robinhood`, then `/connect`. Search the 25 cloud API connectors and four CLI bridges (OpenCode, Kilo, Gemini, and Copilot), choose a connection method, and use `/models` to select a route. `/accounts` opens the same manager. `/disconnect PROVIDER` removes the local connection and its saved credential or anonymous connection marker.
+Run `wallstreetclown`, then `/connect`. Search the 25 cloud API connectors and four CLI bridges (OpenCode, Kilo, Gemini, and Copilot), choose a connection method, and use `/models` to select a route. `/accounts` opens the same manager. `/disconnect PROVIDER` removes the local connection and its saved credential or anonymous connection marker.
 
 ## Supported methods
 
@@ -11,24 +11,24 @@ Run `robinhood`, then `/connect`. Search the 25 cloud API connectors and four CL
 | --- | --- |
 | OpenCode CLI bridge | Launch the isolated local engine; no credential required; [details](OPENCODE.md) |
 | Kilo CLI | Isolated anonymous engine; `/connect kilo-cli` |
-| Gemini CLI | `robinhood login gemini-cli`, then `/connect gemini-cli` |
-| GitHub Copilot CLI | `robinhood login copilot-cli`, then `/connect copilot-cli` |
+| Gemini CLI | `wallstreetclown login gemini-cli`, then `/connect gemini-cli` |
+| GitHub Copilot CLI | `wallstreetclown login copilot-cli`, then `/connect copilot-cli` |
 | OpenRouter | Browser authorization with S256 PKCE; API credential fallback |
 | Puter | Experimental browser authme flow; auth-token fallback |
 | Kilo, AI Horde | Anonymous access, or an account API credential |
 | Gemini, Groq, Mistral, Inception, Cerebras, SambaNova, Z.ai, OpenCode Zen, Cline API, Vercel, Hugging Face, NVIDIA, Fireworks, Scaleway, Sarvam, Poolside, Alibaba, Ollama Cloud, Cohere, Cloudflare, AI21 | Official setup link and one-time API credential entry |
 
-Cloudflare also needs its account ID. All 25 connectors can restore credentials from the OS vault. Environment values take precedence. Accounts are shared across this OS user's Robinhood workspaces; session data directories do not isolate account credentials.
+Cloudflare also needs its account ID. All 25 connectors can restore credentials from the OS vault. Environment values take precedence. Accounts are shared across this OS user's WallStreetClown workspaces; session data directories do not isolate account credentials.
 
-Provider browser login may offer Google, but **a Google session is not a universal API grant**. You authorize each provider separately. Browser cookies, consumer subscriptions, and free credits cannot be copied into a universal token pool. Provider onboarding, availability, geography, verification, and account eligibility still apply. Robinhood does not register accounts or accept provider terms for you.
+Provider browser login may offer Google, but **a Google session is not a universal API grant**. You authorize each provider separately. Browser cookies, consumer subscriptions, and free credits cannot be copied into a universal token pool. Provider onboarding, availability, geography, verification, and account eligibility still apply. WallStreetClown does not register accounts or accept provider terms for you.
 
 ## Persistence and recovery
 
 - API and browser-flow credentials use Windows Credential Manager, macOS Keychain, or Linux Secret Service. No plaintext file fallback. If the vault is unavailable or rejects a credential, the current connection remains usable until exit; an older saved credential may remain unchanged.
 - Browser sign-in has a three-minute deadline. Ctrl+C cancels; cancellation or a failed exchange preserves the existing connection. A displayed authorization URL lets you open the flow manually when automatic browser launch fails. The browser must be able to reach the same machine's loopback listener; remote/headless terminals can use credential entry instead.
-- Native Gemini/Copilot login lives in dedicated CLI profiles, managed by each CLI rather than Robinhood's vault. `/disconnect` removes only their connection marker; cached authorization remains. See [CLI account storage](CLI-BRIDGES.md).
+- Native Gemini/Copilot login lives in dedicated CLI profiles, managed by each CLI rather than WallStreetClown's vault. `/disconnect` removes only their connection marker; cached authorization remains. See [CLI account storage](CLI-BRIDGES.md).
 - For API connectors, `/disconnect` removes local authorization, not the provider's remote key. Revoke keys on the provider website when needed. Remove environment variables separately.
-- A restored credential is not proof it remains valid. Expired or revoked credentials require reconnecting; model requests surface provider errors. Robinhood does not bypass quotas or silently switch to paid routes; native engines may retry internally within the request deadline.
+- A restored credential is not proof it remains valid. Expired or revoked credentials require reconnecting; model requests surface provider errors. WallStreetClown does not bypass quotas or silently switch to paid routes; native engines may retry internally within the request deadline.
 - Model selection remains explicit after restart. Saved task history is independent of account credentials.
 
 ## Terminal controls

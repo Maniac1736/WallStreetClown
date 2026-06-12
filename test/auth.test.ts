@@ -62,7 +62,7 @@ test('vault stores independent accounts and supports missing credentials and mal
   assert.equal((await vault.load('a'))?.key, 'synthetic');
   await vault.remove('a'); assert.equal(await vault.load('a'), undefined);
   assert.equal((await vault.load('b'))?.method, 'anonymous');
-  records.set('robinhood.accounts.v1/b', 'null');
+  records.set('wallstreetclown.accounts.v1/b', 'null');
   await assert.rejects(vault.load('b'), /malformed/);
   const unavailable = new AccountVault(() => { throw new Error('OS vault unavailable'); });
   await assert.rejects(unavailable.save('x', { key: 'synthetic', method: 'key' }));

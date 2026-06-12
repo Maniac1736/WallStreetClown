@@ -25,7 +25,7 @@ test('Gemini CLI accepts only valid structured proposals and requires account co
 
 let installed = true;
 try { createRequire(import.meta.url).resolve('@google/gemini-cli/package.json'); } catch { installed = false; }
-test('real Gemini CLI disables native tools and proposes an approved Robinhood file write', { skip: !installed, timeout: 60000 }, async () => {
+test('real Gemini CLI disables native tools and proposes an approved WallStreetClown file write', { skip: !installed, timeout: 60000 }, async () => {
   const requests: Array<Record<string, any>> = [];
   const mock = createServer(async (req, res) => {
     let raw = ''; for await (const chunk of req) raw += chunk;
@@ -38,7 +38,7 @@ test('real Gemini CLI disables native tools and proposes an approved Robinhood f
     else { res.writeHead(200, { 'content-type': 'application/json' }); res.end(JSON.stringify(response)); }
   });
   mock.listen(0, '127.0.0.1'); await once(mock, 'listening');
-  const scratch = await mkdtemp(path.join(tmpdir(), 'robinhood-gemini-fixture-'));
+  const scratch = await mkdtemp(path.join(tmpdir(), 'wallstreetclown-gemini-fixture-'));
   const profile = path.join(scratch, 'profile');
   const fixture = { baseURL: `http://127.0.0.1:${(mock.address() as { port: number }).port}`, apiKey: 'synthetic-fixture-key' };
   const prepared = await prepareGemini(profile, fixture);

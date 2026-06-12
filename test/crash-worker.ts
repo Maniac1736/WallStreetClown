@@ -8,7 +8,7 @@ import { workspaceIdentity } from '../src/tools.js';
 import type { Route } from '../src/types.js';
 
 const workspace = process.argv[2]!;
-const store = new Store(path.join(workspace, '.robinhood', 'sessions.db'));
+const store = new Store(path.join(workspace, '.wallstreetclown', 'sessions.db'));
 const session = store.create(workspace, await workspaceIdentity(workspace), 'Crash after the side effect, before the completion receipt.');
 await writeFile(path.join(workspace, 'session-id.txt'), session.id);
 const route: Route = {

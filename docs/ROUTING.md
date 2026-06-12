@@ -1,6 +1,6 @@
 # Automatic model chaining
 
-Run `robinhood`, connect providers with `/connect`, then enter your task. Automatic chaining is on by default; there is no need to choose every model manually.
+Run `wallstreetclown`, connect providers with `/connect`, then enter your task. Automatic chaining is on by default; there is no need to choose every model manually.
 
 ## What enters the pool
 
@@ -14,7 +14,7 @@ No accounts are created, no quotas are bypassed, and no credits are transferred.
 
 Catalogs are discovered concurrently at the start of each task turn or workflow invocation. An unavailable catalog does not prevent discovery from other providers. The current session's last working route goes first; an explicit selection changes that preference. Other discovered models are ordered by context size within each provider. This is a deterministic fallback order, not a model-quality ranking.
 
-On a typed quota, capacity, or authentication error, Robinhood logs the handoff and tries the next route. Context, constraints, plan mode, and completed tool receipts stay in the same session. Foreign provider-specific metadata is converted by the existing connector adapters. Failed partial output stays in diagnostic events, not completed history; it cannot launch a tool.
+On a typed quota, capacity, or authentication error, WallStreetClown logs the handoff and tries the next route. Context, constraints, plan mode, and completed tool receipts stay in the same session. Foreign provider-specific metadata is converted by the existing connector adapters. Failed partial output stays in diagnostic events, not completed history; it cannot launch a tool.
 
 Failed routes receive process-local cooldowns: provider Retry-After where available, otherwise 15 minutes for quota, one minute for capacity, or five minutes for authentication. These are retry delays, not claims about actual quota reset times. Restarting the app clears cooldowns. A working route remains preferred in the saved session. Workflow steps and delegated research use the same pool.
 

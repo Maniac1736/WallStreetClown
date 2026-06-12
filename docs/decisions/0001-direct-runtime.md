@@ -1,6 +1,6 @@
 # 0001: own the model-request and tool-receipt boundaries
 
-**Update, September 16, 2026:** the direct runtime remains the default. An opt-in [OpenCode CLI bridge](../OPENCODE.md) now uses an isolated engine for model requests while keeping execution and durable receipts in Robinhood. It explicitly discloses OpenCode's internal retries. The experiment and original decision below are historical evidence.
+**Update, September 16, 2026:** the direct runtime remains the default. An opt-in [OpenCode CLI bridge](../OPENCODE.md) now uses an isolated engine for model requests while keeping execution and durable receipts in WallStreetClown. It explicitly discloses OpenCode's internal retries. The experiment and original decision below are historical evidence.
 
 - **Date:** 2026-09-15
 - **Decision:** use one small direct API runtime for the initial application.
@@ -26,7 +26,7 @@ The pinned source explains the last result: the session retry layer has its own 
 
 ## Why choose a direct runtime
 
-OpenCode demonstrated useful session and tool behavior. Robinhood additionally needs an application-controlled eligibility check immediately before each request and a durable operation record before each side effect. A wrapper would need further hooks or a policy proxy, plus coordination with another session store. The experiment did not establish those guarantees through the simple integration being evaluated.
+OpenCode demonstrated useful session and tool behavior. WallStreetClown additionally needs an application-controlled eligibility check immediately before each request and a durable operation record before each side effect. A wrapper would need further hooks or a policy proxy, plus coordination with another session store. The experiment did not establish those guarantees through the simple integration being evaluated.
 
 For the first release, a direct request path and a local execution journal are easier to inspect and test. This is a product-fit decision, not a claim that OpenCode is unsafe or incapable of further customization.
 

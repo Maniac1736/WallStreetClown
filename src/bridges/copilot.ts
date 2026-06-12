@@ -17,7 +17,7 @@ export async function prepareCopilot(profile: string, fixture?: { baseURL: strin
   const require = createRequire(import.meta.url);
   let file: string;
   try { file = require.resolve('@github/copilot/package.json'); }
-  catch { throw new Error('Copilot CLI is missing. Run npm install --include=optional in the Robinhood checkout.'); }
+  catch { throw new Error('Copilot CLI is missing. Run npm install --include=optional in the WallStreetClown checkout.'); }
   const pkg = JSON.parse(await readFile(file, 'utf8')) as { version: string; bin: { copilot: string } };
   if (pkg.version !== COPILOT_VERSION) throw new Error(`This bridge requires Copilot CLI ${COPILOT_VERSION}. Run npm ci.`);
   const cwd = path.join(profile, 'workspace'); await mkdir(cwd, { recursive: true, mode: 0o700 });
@@ -31,18 +31,18 @@ export async function prepareCopilot(profile: string, fixture?: { baseURL: strin
 }
 
 export async function loginCopilot(profile = copilotProfile()): Promise<void> {
-  if (!process.stdin.isTTY || !process.stdout.isTTY) throw new Error('Run robinhood login copilot-cli in an interactive terminal.');
+  if (!process.stdin.isTTY || !process.stdout.isTTY) throw new Error('Run wallstreetclown login copilot-cli in an interactive terminal.');
   const request = await prepareCopilot(profile);
   const child = spawn(request.command, [...request.args, '--no-auto-update', 'login'], { cwd: request.cwd, env: request.env, stdio: 'inherit', windowsHide: true });
   const [code] = await once(child, 'close');
-  if (code !== 0) throw new Error('Copilot sign-in did not complete. Retry robinhood login copilot-cli.');
-  console.log('Run robinhood, then /connect copilot-cli and /models copilot-cli. Model access and allowance depend on your GitHub account.');
+  if (code !== 0) throw new Error('Copilot sign-in did not complete. Retry wallstreetclown login copilot-cli.');
+  console.log('Run wallstreetclown, then /connect copilot-cli and /models copilot-cli. Model access and allowance depend on your GitHub account.');
 }
 
 export const copilotSafetyArgs = [
   '--no-auto-update', '--no-custom-instructions', '--disable-builtin-mcps', '--no-ask-user', '--no-remote-export', '--no-bash-env',
   // An empty allowlist means defaults in this pinned CLI. A nonmatching name selects no tools.
-  '--available-tools=robinhood_no_native_tools', '--deny-tool=shell,read,write,url,memory', '--silent', '--stream', 'off', '--output-format', 'json', '--log-level', 'none',
+  '--available-tools=wallstreetclown_no_native_tools', '--deny-tool=shell,read,write,url,memory', '--silent', '--stream', 'off', '--output-format', 'json', '--log-level', 'none',
 ];
 export function copilotResponse(raw: string): string {
   let response: string | undefined, completed = false;
@@ -50,7 +50,7 @@ export function copilotResponse(raw: string): string {
     let event: Record<string, unknown>;
     try { event = object(JSON.parse(line)); } catch { throw new RouteError('Copilot returned invalid JSON events.', 'protocol'); }
     const data = object(event.data);
-    if (event.type === 'session.error' || event.type === 'error' || event.type === 'tool.execution_start' || Array.isArray(data.toolRequests) && data.toolRequests.length) throw new RouteError('Copilot returned an error or unexpected native tool activity. No Robinhood tool was executed.', 'protocol');
+    if (event.type === 'session.error' || event.type === 'error' || event.type === 'tool.execution_start' || Array.isArray(data.toolRequests) && data.toolRequests.length) throw new RouteError('Copilot returned an error or unexpected native tool activity. No WallStreetClown tool was executed.', 'protocol');
     if (event.type === 'assistant.message' && typeof data.content === 'string') response = data.content;
     if (event.type === 'result') {
       if (event.exitCode !== 0) throw new RouteError('Copilot did not complete the request successfully.', 'protocol');
@@ -71,7 +71,7 @@ export class CopilotProcess implements HeadlessRunner {
 export class CopilotBridge extends StructuredHeadlessBridge {
   constructor(runner: HeadlessRunner = new CopilotProcess()) {
     super({ id: 'copilot-cli', label: 'Copilot CLI', models: copilotModels,
-      notice: 'Copilot CLI uses your native GitHub login. Free allowance, model eligibility and AI credits depend on your account; this request may consume paid credits. Robinhood does not verify the remaining balance. The native CLI may retry or make utility requests within the two-minute deadline.',
+      notice: 'Copilot CLI uses your native GitHub login. Free allowance, model eligibility and AI credits depend on your account; this request may consume paid credits. WallStreetClown does not verify the remaining balance. The native CLI may retry or make utility requests within the two-minute deadline.',
     }, runner);
   }
 }

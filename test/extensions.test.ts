@@ -9,7 +9,7 @@ import { Capabilities } from '../src/capabilities.js';
 import { Store } from '../src/storage.js';
 
 test('real MCP stdio tools enter the approval boundary and resources can be read', async () => {
-  const root = await realpath(await mkdtemp(path.join(tmpdir(), 'robinhood-mcp-')));
+  const root = await realpath(await mkdtemp(path.join(tmpdir(), 'wallstreetclown-mcp-')));
   const config = path.join(root, 'mcp.json'), receipt = path.join(root, 'receipt.txt');
   await writeFile(config, JSON.stringify({ name: 'fixture', command: process.execPath, args: [fileURLToPath(new URL('./mcp-fixture.js', import.meta.url)), receipt] }));
   const capabilities = new Capabilities(); const store = new Store(path.join(root, 'state.db'));
@@ -30,7 +30,7 @@ test('real MCP stdio tools enter the approval boundary and resources can be read
 });
 
 test('workspace skills and trusted local plugins load without inventing permissions', async () => {
-  const root = await realpath(await mkdtemp(path.join(tmpdir(), 'robinhood-extension-')));
+  const root = await realpath(await mkdtemp(path.join(tmpdir(), 'wallstreetclown-extension-')));
   await mkdir(path.join(root, '.agents', 'skills', 'review'), { recursive: true });
   await writeFile(path.join(root, '.agents', 'skills', 'review', 'SKILL.md'), 'Inspect before editing.');
   assert.deepEqual(await listSkills(root), ['review']);

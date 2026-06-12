@@ -53,13 +53,13 @@ export async function startFixture() {
 }
 
 export async function demo(print: (text: string) => void = console.log): Promise<void> {
-  const workspace = await realpath(await mkdtemp(path.join(tmpdir(), 'robinhood demo ')));
-  await writeFile(path.join(workspace, 'README.md'), 'Disposable Robinhood demo workspace.\n');
-  const database = path.join(workspace, '.robinhood', 'sessions.db');
+  const workspace = await realpath(await mkdtemp(path.join(tmpdir(), 'wallstreetclown demo ')));
+  await writeFile(path.join(workspace, 'README.md'), 'Disposable WallStreetClown demo workspace.\n');
+  const database = path.join(workspace, '.wallstreetclown', 'sessions.db');
   const fixture = await startFixture();
   let store = new Store(database);
   try {
-    print('ROBINHOOD / offline handoff demo');
+    print('WALLSTREETCLOWN / offline handoff demo');
     print('Two simulated providers. No account, network inference, or tokens required.');
     print(`Disposable workspace: ${workspace}`);
     const session = store.create(workspace, await workspaceIdentity(workspace), 'Run the fixture command once and preserve its receipt across a quota failure.');

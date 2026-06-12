@@ -46,7 +46,7 @@ export class OpenRouter {
         if (Buffer.byteLength(JSON.stringify(body)) + 4096 > Math.min(selected.context, 64000)) throw new RouteError('Session exceeds this preview\'s conservative context budget. Automatic compaction is not implemented.', 'policy');
         if (!this.key) throw new RouteError('Connect an OpenRouter API key first.', 'auth');
         const response = await fetch(`${this.baseURL}/chat/completions`, {
-          method: 'POST', headers: { Authorization: `Bearer ${this.key}`, 'content-type': 'application/json', 'X-Title': 'Robinhood' },
+          method: 'POST', headers: { Authorization: `Bearer ${this.key}`, 'content-type': 'application/json', 'X-Title': 'WallStreetClown' },
           body: JSON.stringify(body), signal: AbortSignal.any([signal, AbortSignal.timeout(120_000)]), redirect: 'error',
         });
         return parseCompletion(response, onText, { provider: 'openrouter', model });

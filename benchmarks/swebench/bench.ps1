@@ -14,7 +14,7 @@ if ($LASTEXITCODE -ne 0) { throw 'Could not resolve the benchmark path in WSL.' 
 $linuxPath = $linuxPath.Trim()
 $linuxHome = (& wsl -d Ubuntu -- printenv HOME).Trim()
 if ($LASTEXITCODE -ne 0) { throw 'Could not find the WSL home directory.' }
-$arguments = @('-d', 'Ubuntu', '--', "$linuxHome/.local/share/robinhood-swebench/venv/bin/python", $linuxPath, $Action, '--profile', $Profile)
+$arguments = @('-d', 'Ubuntu', '--', "$linuxHome/.local/share/wallstreetclown-swebench/venv/bin/python", $linuxPath, $Action, '--profile', $Profile)
 if ($Start) { $arguments += '--start' }
 if ($RunId) { $arguments += @('--run-id', $RunId) }
 & wsl @arguments

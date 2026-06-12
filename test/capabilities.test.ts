@@ -11,7 +11,7 @@ import { systemPrompt, systemPromptHash } from '../src/prompt.js';
 import type { Route } from '../src/types.js';
 
 test('the text-only Horde route retains room for a prompt within its 8K budget', async () => {
-  const root = await realpath(await mkdtemp(path.join(tmpdir(), 'robinhood-small-context-')));
+  const root = await realpath(await mkdtemp(path.join(tmpdir(), 'wallstreetclown-small-context-')));
   const store = new Store(path.join(root, 'state.db'));
   try {
     const session = store.create(root, await workspaceIdentity(root), 'Explain this function');
@@ -25,7 +25,7 @@ test('the text-only Horde route retains room for a prompt within its 8K budget',
 });
 
 test('plan mode blocks hallucinated write tools and sends the user-derived prompt', async () => {
-  const root = await realpath(await mkdtemp(path.join(tmpdir(), 'robinhood-plan-')));
+  const root = await realpath(await mkdtemp(path.join(tmpdir(), 'wallstreetclown-plan-')));
   const store = new Store(path.join(root, 'state.db'));
   try {
     const session = store.create(root, await workspaceIdentity(root), 'Plan only');
@@ -44,7 +44,7 @@ test('plan mode blocks hallucinated write tools and sends the user-derived promp
 });
 
 test('fork and compaction preserve original history and completed receipts', async () => {
-  const root = await mkdtemp(path.join(tmpdir(), 'robinhood-memory-'));
+  const root = await mkdtemp(path.join(tmpdir(), 'wallstreetclown-memory-'));
   const store = new Store(path.join(root, 'state.db'));
   try {
     const session = store.create(root, 'fixture', 'Original');
@@ -66,7 +66,7 @@ test('fork and compaction preserve original history and completed receipts', asy
 });
 
 test('checklists validate items and cannot create a user goal', async () => {
-  const root = await mkdtemp(path.join(tmpdir(), 'robinhood-tasks-'));
+  const root = await mkdtemp(path.join(tmpdir(), 'wallstreetclown-tasks-'));
   const store = new Store(path.join(root, 'state.db'));
   try {
     const session = store.create(root, 'fixture', 'Task');

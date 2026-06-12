@@ -5,7 +5,7 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { hash, MAX_FILE_BYTES, prepareTool } from '../src/tools.js';
 
-const fixture = async () => realpath(await mkdtemp(path.join(tmpdir(), 'robinhood tools test ')));
+const fixture = async () => realpath(await mkdtemp(path.join(tmpdir(), 'wallstreetclown tools test ')));
 const signal = () => new AbortController().signal;
 
 test('literal edits reject ambiguity and preserve concurrent edits', async () => {

@@ -1,4 +1,4 @@
-# Robinhood
+# WallStreetClown
 
 **Keep the task. Switch the model.**
 
@@ -11,8 +11,8 @@ A local coding terminal with durable task memory, configurable permissions, and 
 Requires **Node.js 24.13 or later in the Node 24 series**, npm, and Git.
 
 ```sh
-git clone https://github.com/AmRitJain0442/robinhood.git
-cd robinhood
+git clone https://github.com/Maniac1736/wallstreetclown.git
+cd wallstreetclown
 npm ci
 npm run demo
 ```
@@ -29,7 +29,7 @@ PASS: quota handoff preserved the tool result; one command execution; session re
 
 ## Use the terminal
 
-Install the command once from your Robinhood checkout:
+Install the command once from your WallStreetClown checkout:
 
 ```sh
 npm run build
@@ -39,30 +39,30 @@ npm link
 Then open a terminal in any project and run:
 
 ```sh
-robinhood
+wallstreetclown
 ```
 
-Robinhood uses your current directory as the workspace. You can also run `robinhood --workspace /path/to/project`, `robinhood --help`, or `robinhood demo`. The local installation points to this checkout; run `npm run build` here after pulling updates. Remove the command with `npm uninstall -g @amritjain0442/robinhood`.
+WallStreetClown uses your current directory as the workspace. You can also run `wallstreetclown --workspace /path/to/project`, `wallstreetclown --help`, or `wallstreetclown demo`. The local installation points to this checkout; run `npm run build` here after pulling updates. Remove the command with `npm uninstall -g @maniac1736/wallstreetclown`.
 
-**Prefer a GUI?** Run `robinhood gui`, or `/gui` inside an existing terminal to share the same live task. The local browser interface includes account management, cumulative reported-token tracking, provider/model usage, task history, themes, and agent controls. `/usage` exposes the same ledger in the terminal. [Interfaces and tracking details](docs/INTERFACES.md).
+**Prefer a GUI?** Run `wallstreetclown gui`, or `/gui` inside an existing terminal to share the same live task. The local browser interface includes account management, cumulative reported-token tracking, provider/model usage, task history, themes, and agent controls. `/usage` exposes the same ledger in the terminal. [Interfaces and tracking details](docs/INTERFACES.md).
 
-**YOLO is the default.** Tools, selected-account model requests, and explicit terminal commands run without permission prompts. `robinhood --ask` or `/permissions ask` restores confirmations; `/permissions yolo` turns them off again. The current mode is visible in the TUI. Account-dependent requests may consume paid credits; Automatic fallbacks are restricted to the free-model pool described below. Credential exclusions, file hash checks, plan mode, provider pricing checks, and unknown-outcome recovery remain enforced. Login and genuinely missing task information can still require input.
+**YOLO is the default.** Tools, selected-account model requests, and explicit terminal commands run without permission prompts. `wallstreetclown --ask` or `/permissions ask` restores confirmations; `/permissions yolo` turns them off again. The current mode is visible in the TUI. Account-dependent requests may consume paid credits; Automatic fallbacks are restricted to the free-model pool described below. Credential exclusions, file hash checks, plan mode, provider pricing checks, and unknown-outcome recovery remain enforced. Login and genuinely missing task information can still require input.
 
-**Automatic model chaining is on by default.** Connect OpenCode, Kilo (API or CLI), or OpenRouter and describe your task. Robinhood discovers their eligible free models, uses the last working model first, and switches on quota, capacity, or authentication errors. All models share the task journal and completed tool receipts. Use `/chain` for status or `/chain off` for a single explicitly selected model. [Routing behavior and limits](docs/ROUTING.md).
+**Automatic model chaining is on by default.** Connect OpenCode, Kilo (API or CLI), or OpenRouter and describe your task. WallStreetClown discovers their eligible free models, uses the last working model first, and switches on quota, capacity, or authentication errors. All models share the task journal and completed tool receipts. Use `/chain` for status or `/chain off` for a single explicitly selected model. [Routing behavior and limits](docs/ROUTING.md).
 
 Inside the terminal:
 
-**Want OpenCode's free models without an API key?** Run `/connect opencode`, choose **Launch OpenCode free-model bridge**, then `/models opencode`. Robinhood launches the real OpenCode CLI engine in the background while keeping its own UI, memory, and approvals. [How the bridge works and its limits](docs/OPENCODE.md).
+**Want OpenCode's free models without an API key?** Run `/connect opencode`, choose **Launch OpenCode free-model bridge**, then `/models opencode`. WallStreetClown launches the real OpenCode CLI engine in the background while keeping its own UI, memory, and approvals. [How the bridge works and its limits](docs/OPENCODE.md).
 
 **More native CLI engines:**
 
-| Engine | One-time setup in your terminal | Inside Robinhood |
+| Engine | One-time setup in your terminal | Inside WallStreetClown |
 | --- | --- | --- |
 | Kilo CLI | No login required | `/connect kilo-cli` |
-| Gemini CLI | `robinhood login gemini-cli` | `/connect gemini-cli` |
-| GitHub Copilot CLI | `robinhood login copilot-cli` | `/connect copilot-cli` |
+| Gemini CLI | `wallstreetclown login gemini-cli` | `/connect gemini-cli` |
+| GitHub Copilot CLI | `wallstreetclown login copilot-cli` | `/connect copilot-cli` |
 
-Then use `/models PROVIDER`. These run the actual pinned CLIs behind Robinhood's memory and approvals. Gemini and Copilot use their own account allowances; Copilot may consume paid credits. All four native executables pass local protocol fixtures. Kilo CLI live probes returned an empty response or quota error; Google/GitHub inference requires account validation. [Setup and validation details](docs/CLI-BRIDGES.md).
+Then use `/models PROVIDER`. These run the actual pinned CLIs behind WallStreetClown's memory and approvals. Gemini and Copilot use their own account allowances; Copilot may consume paid credits. All four native executables pass local protocol fixtures. Kilo CLI live probes returned an empty response or quota error; Google/GitHub inference requires account validation. [Setup and validation details](docs/CLI-BRIDGES.md).
 
 1. Run `/connect` (or `/accounts`) to search 25 API connectors and four CLI bridges. OpenRouter supports browser authorization; Puter has an experimental browser login. Choose Google on the provider's sign-in page if offered. Kilo and AI Horde also offer anonymous access.
 2. For other providers, choose **Open official account setup**, sign in on their site, and paste an API credential once. Credentials are saved in your OS vault and restored on launch. If the vault is unavailable, the connection lasts for the current process only. Environment credentials take precedence.
@@ -70,7 +70,7 @@ Then use `/models PROVIDER`. These run the actual pinned CLIs behind Robinhood's
 4. Describe a task. YOLO executes tools directly; ask mode presents confirmations. Use Page Up / Page Down to inspect longer output; Ctrl+C cancels active work.
 5. Use `/sessions` and `/resume ID` to recover a task after restarting. Saved accounts reconnect; choose a model with `/models`.
 
-**One terminal, separately authorized accounts.** Google sign-in to one provider cannot authorize unrelated providers. Robinhood does not pool or transfer credits, create accounts automatically, bypass quotas, or treat consumer subscriptions as API allowances. See [account linking](docs/ACCOUNTS.md) for supported methods and limitations.
+**One terminal, separately authorized accounts.** Google sign-in to one provider cannot authorize unrelated providers. WallStreetClown does not pool or transfer credits, create accounts automatically, bypass quotas, or treat consumer subscriptions as API allowances. See [account linking](docs/ACCOUNTS.md) for supported methods and limitations.
 
 OpenRouter pricing is checked before every request; only explicit zero-priced `:free` routes qualify automatically. Other connectors may have account-dependent free tiers or credits. Those require explicit confirmation for each request and are not counted as verified free access. See the [access policy](docs/INTEGRATIONS.md#free-access-versus-account-dependent-access).
 
@@ -95,7 +95,7 @@ The quota display reports observed activity and unknown balances honestly. This 
 
 ## Agent features
 
-Robinhood now has **21 built-in tools** and a native terminal implementation of core [DeepSeek Harness-inspired features](docs/DEEPSEEK-HARNESS.md). This is not full upstream parity; the linked checklist lists remaining features.
+WallStreetClown now has **21 built-in tools** and a native terminal implementation of core [DeepSeek Harness-inspired features](docs/DEEPSEEK-HARNESS.md). This is not full upstream parity; the linked checklist lists remaining features.
 
 Use `/plan on` to inspect before editing, `/todos` for the checklist, `/pin TEXT` for durable constraints, `/fork` to branch, and `/compact` to review a shorter context summary. `/skills`, `/plugin FILE`, and `/mcp CONFIG.json` extend the agent. `/delegate TASK` runs a read-only research branch; `/workflow FILE` runs a reviewed sequence of tasks. `/jobs` and `/terminals` show background work. `/capabilities` lists the active tools.
 
@@ -146,4 +146,4 @@ The optional [OpenCode feasibility experiment](experiments/opencode/README.md) h
 
 ## License
 
-[MIT](LICENSE). Independent community project. Robinhood is the working project name and is not affiliated with the brokerage or the providers listed here.
+[MIT](LICENSE). Independent community project. WallStreetClown is the working project name and is not affiliated with the brokerage or the providers listed here.

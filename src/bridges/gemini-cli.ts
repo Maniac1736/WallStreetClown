@@ -20,7 +20,7 @@ export async function prepareGemini(profile: string, fixture?: { baseURL: string
   const require = createRequire(import.meta.url);
   let file: string;
   try { file = require.resolve('@google/gemini-cli/package.json'); }
-  catch { throw new Error('Gemini CLI is missing. Run npm install --include=optional in the Robinhood checkout.'); }
+  catch { throw new Error('Gemini CLI is missing. Run npm install --include=optional in the WallStreetClown checkout.'); }
   const pkg = JSON.parse(await readFile(file, 'utf8')) as { version: string; bin: { gemini: string } };
   if (pkg.version !== GEMINI_CLI_VERSION) throw new Error(`This bridge requires Gemini CLI ${GEMINI_CLI_VERSION}. Run npm ci.`);
   const cwd = path.join(profile, 'workspace');
@@ -40,20 +40,20 @@ export async function prepareGemini(profile: string, fixture?: { baseURL: string
   await writeFile(policy, denyTools, { mode: 0o600 });
   const env = {
     ...minimalEnvironment(), HOME: profile, USERPROFILE: profile, GEMINI_CLI_HOME: profile,
-    GEMINI_CLI_NO_RELAUNCH: 'true', GEMINI_CLI_SURFACE: 'robinhood',
+    GEMINI_CLI_NO_RELAUNCH: 'true', GEMINI_CLI_SURFACE: 'wallstreetclown',
     ...(fixture ? { GOOGLE_GEMINI_BASE_URL: fixture.baseURL, GEMINI_API_KEY: fixture.apiKey } : {}),
   };
   return { command: process.execPath, args: [path.resolve(path.dirname(file), pkg.bin.gemini), '--policy', policy, '--extensions', 'none'], cwd, env };
 }
 
 export async function loginGemini(profile = geminiProfile()): Promise<void> {
-  if (!process.stdin.isTTY || !process.stdout.isTTY) throw new Error('Gemini Google sign-in needs an interactive terminal. Run robinhood login gemini-cli.');
+  if (!process.stdin.isTTY || !process.stdout.isTTY) throw new Error('Gemini Google sign-in needs an interactive terminal. Run wallstreetclown login gemini-cli.');
   const request = await prepareGemini(profile);
-  console.log('Sign in with Google in Gemini CLI, then use /quit to return. Robinhood keeps this login in its dedicated Gemini profile.');
+  console.log('Sign in with Google in Gemini CLI, then use /quit to return. WallStreetClown keeps this login in its dedicated Gemini profile.');
   const child = spawn(request.command, request.args, { cwd: request.cwd, env: request.env, stdio: 'inherit', windowsHide: true });
   const [code] = await once(child, 'close');
-  if (code !== 0) throw new Error('Gemini sign-in exited without confirmation. Retry robinhood login gemini-cli.');
-  console.log('Gemini CLI closed. Run robinhood, then /connect gemini-cli and /models gemini-cli.');
+  if (code !== 0) throw new Error('Gemini sign-in exited without confirmation. Retry wallstreetclown login gemini-cli.');
+  console.log('Gemini CLI closed. Run wallstreetclown, then /connect gemini-cli and /models gemini-cli.');
 }
 
 export type GeminiRunner = HeadlessRunner;
@@ -61,14 +61,14 @@ export class GeminiProcess implements GeminiRunner {
   constructor(private readonly profile = geminiProfile(), private readonly fixture?: { baseURL: string; apiKey: string }) {}
   async run(model: string, prompt: string, signal: AbortSignal): Promise<string> {
     const request = await prepareGemini(this.profile, this.fixture);
-    return runHeadless({ ...request, args: [...request.args, '--model', model, '--output-format', 'json', '--prompt', 'Follow the Robinhood request supplied on stdin. Return only the requested JSON object.'], input: prompt }, signal);
+    return runHeadless({ ...request, args: [...request.args, '--model', model, '--output-format', 'json', '--prompt', 'Follow the WallStreetClown request supplied on stdin. Return only the requested JSON object.'], input: prompt }, signal);
   }
 }
 
 export class GeminiCliBridge extends StructuredHeadlessBridge {
   constructor(runner: GeminiRunner = new GeminiProcess()) {
     super({ id: 'gemini-cli', label: 'Gemini CLI', models: geminiCLIModels,
-      notice: 'Gemini CLI uses your native Google login. Free quota and model access depend on that account and are not verified by Robinhood. The CLI may route or retry internally within a two-minute deadline. Review Google account terms before sending project content.',
+      notice: 'Gemini CLI uses your native Google login. Free quota and model access depend on that account and are not verified by WallStreetClown. The CLI may route or retry internally within a two-minute deadline. Review Google account terms before sending project content.',
     }, runner);
   }
 }

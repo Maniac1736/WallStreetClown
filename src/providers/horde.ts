@@ -7,7 +7,7 @@ import { portableMessages } from './memory.js';
 export class Horde implements Connector {
   private readonly baseURL: string;
   constructor(private readonly key: string, override?: string) { this.baseURL = endpoint(override, 'https://aihorde.net/api/v2'); }
-  private headers() { return { 'content-type': 'application/json', apikey: this.key || '0000000000', 'Client-Agent': 'Robinhood:0.0.1:https://github.com/AmRitJain0442/robinhood' }; }
+  private headers() { return { 'content-type': 'application/json', apikey: this.key || '0000000000', 'Client-Agent': 'WallStreetClown:0.0.1:https://github.com/Maniac1736/wallstreetclown' }; }
   async models(signal = AbortSignal.timeout(15000)): Promise<ModelInfo[]> {
     const data = await boundedJSON(await fetch(`${this.baseURL}/status/models?type=text`, { signal, redirect: 'error' }));
     if (!Array.isArray(data)) throw new RouteError('Malformed Horde model catalog.', 'protocol');

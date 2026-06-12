@@ -10,7 +10,7 @@ import { Terminals } from '../src/terminals.js';
 let available = true;
 try { await import('node-pty'); } catch { available = false; }
 test('real persistent terminal retains shell variables and isolates session ownership', { skip: !available, timeout: 20000 }, async () => {
-  const root = await realpath(await mkdtemp(path.join(tmpdir(), 'robinhood-pty-')));
+  const root = await realpath(await mkdtemp(path.join(tmpdir(), 'wallstreetclown-pty-')));
   const store = new Store(path.join(root, 'state.db')); const terminals = new Terminals();
   try {
     const session = store.create(root, 'fixture', 'PTY test');

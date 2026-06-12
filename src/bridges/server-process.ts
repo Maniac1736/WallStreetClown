@@ -39,10 +39,10 @@ export class ServerProcess implements Engine {
     const require = createRequire(import.meta.url);
     let packageFile: string;
     try { packageFile = require.resolve(`${this.runtime.packageName}/package.json`); }
-    catch { throw new Error(`CLI engine runtime is missing. In the Robinhood checkout run: npm install --include=optional`); }
+    catch { throw new Error(`CLI engine runtime is missing. In the WallStreetClown checkout run: npm install --include=optional`); }
     const pkg = JSON.parse(await readFile(packageFile, 'utf8')) as { version: string; bin: Record<string, string> };
-    if (pkg.version !== this.runtime.version) throw new Error(`This bridge requires CLI engine ${this.runtime.version}. Run npm ci in the Robinhood checkout.`);
-    const scratch = await mkdtemp(path.join(tmpdir(), 'robinhood-opencode-'));
+    if (pkg.version !== this.runtime.version) throw new Error(`This bridge requires CLI engine ${this.runtime.version}. Run npm ci in the WallStreetClown checkout.`);
+    const scratch = await mkdtemp(path.join(tmpdir(), 'wallstreetclown-opencode-'));
     this.scratch = scratch;
     this.directory = path.join(scratch, 'workspace'); await mkdir(this.directory);
     if (this.stopped) { await this.removeScratch(); throw new Error('CLI engine startup was cancelled.'); }
@@ -106,7 +106,7 @@ export class ServerProcess implements Engine {
     if (!this.scratch) return;
     const target = path.resolve(this.scratch);
     // Verify the final absolute path is our direct temporary child before recursive removal.
-    if (path.dirname(target) !== path.resolve(tmpdir()) || !path.basename(target).startsWith('robinhood-opencode-')) throw new Error('Refusing to clean an unexpected CLI engine directory.');
+    if (path.dirname(target) !== path.resolve(tmpdir()) || !path.basename(target).startsWith('wallstreetclown-opencode-')) throw new Error('Refusing to clean an unexpected CLI engine directory.');
     await rm(target, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 });
   }
   private async stop(): Promise<void> {

@@ -11,7 +11,7 @@ import { randomUUID } from 'node:crypto';
 import { createOpencodeClient } from '@opencode-ai/sdk';
 
 const root = path.resolve(fileURLToPath(new URL('../..', import.meta.url)));
-const scratch = await mkdtemp(path.join(tmpdir(), 'robinhood opencode probe '));
+const scratch = await mkdtemp(path.join(tmpdir(), 'wallstreetclown opencode probe '));
 const workspace = path.join(scratch, 'workspace with spaces');
 await mkdir(workspace, { recursive: true });
 await writeFile(path.join(workspace, 'README.md'), 'Disposable fixture. No user data.\n');
@@ -89,9 +89,9 @@ async function start() {
   const model = { name: 'Fixture', limit: { context: 128000, output: 4096 }, tool_call: true };
   const config = {
     autoupdate: false, share: 'disabled', snapshot: false,
-    enabled_providers: ['robinhood-fixture'], model: 'robinhood-fixture/fixture-a', small_model: 'robinhood-fixture/fixture-b',
+    enabled_providers: ['wallstreetclown-fixture'], model: 'wallstreetclown-fixture/fixture-a', small_model: 'wallstreetclown-fixture/fixture-b',
     permission: { '*': 'ask' }, compaction: { auto: false, prune: false },
-    provider: { 'robinhood-fixture': {
+    provider: { 'wallstreetclown-fixture': {
       npm: '@ai-sdk/openai-compatible', name: 'Loopback fixture',
       options: { baseURL: `http://127.0.0.1:${mock.address().port}/v1`, apiKey: 'fixture-not-a-real-key', maxRetries: 0 },
       models: { 'fixture-a': model, 'fixture-b': model },
@@ -123,7 +123,7 @@ try {
   const client = await start();
   const { data: session } = await client.session.create({ body: { title: 'Explicit fixture title' } });
   assert.ok(session.id);
-  const prompt = client.session.prompt({ path: { id: session.id }, body: { model: { providerID: 'robinhood-fixture', modelID: 'fixture-a' }, parts: [{ type: 'text', text: 'Run the fixture command exactly once.' }] } }).catch(error => ({ error: String(error) }));
+  const prompt = client.session.prompt({ path: { id: session.id }, body: { model: { providerID: 'wallstreetclown-fixture', modelID: 'fixture-a' }, parts: [{ type: 'text', text: 'Run the fixture command exactly once.' }] } }).catch(error => ({ error: String(error) }));
   const permission = await until(async () => (await api('/permission')).find(item => item.sessionID === session.id), 'tool permission');
   assert.equal(await readFile(path.join(workspace, 'receipt.txt'), 'utf8').catch(() => null), null);
   observations.checks.permissionBeforeSideEffect = true;
@@ -135,7 +135,7 @@ try {
   await prompt;
   const beforeSwitch = await api(`/session/${session.id}/message`);
   observations.checks.durableCompletedTool = beforeSwitch.some(message => message.parts.some(part => part.type === 'tool' && part.state?.status === 'completed'));
-  await client.session.prompt({ path: { id: session.id }, body: { model: { providerID: 'robinhood-fixture', modelID: 'fixture-b' }, parts: [{ type: 'text', text: 'Continue using the completed receipt. Do not repeat the command.' }] } });
+  await client.session.prompt({ path: { id: session.id }, body: { model: { providerID: 'wallstreetclown-fixture', modelID: 'fixture-b' }, parts: [{ type: 'text', text: 'Continue using the completed receipt. Do not repeat the command.' }] } });
   assert.equal(await readFile(path.join(workspace, 'receipt.txt'), 'utf8'), 'once\n');
   observations.checks.noCompletedCommandReplayOnManualSwitch = true;
   observations.checks.nextModelReceivedToolResult = requests.filter(r => r.model === 'fixture-b').some(r => r.messages?.some(m => m.role === 'tool'));
@@ -155,7 +155,7 @@ try {
   await stop();
   mock.closeAllConnections();
   await new Promise(resolve => mock.close(resolve));
-  await mkdir(path.join(root, '.robinhood'), { recursive: true });
-  await writeFile(path.join(root, '.robinhood', 'opencode-probe.json'), JSON.stringify(observations, null, 2) + '\n');
+  await mkdir(path.join(root, '.wallstreetclown'), { recursive: true });
+  await writeFile(path.join(root, '.wallstreetclown', 'opencode-probe.json'), JSON.stringify(observations, null, 2) + '\n');
   console.log(JSON.stringify(observations, null, 2));
 }

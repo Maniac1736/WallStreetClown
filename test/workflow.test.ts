@@ -11,7 +11,7 @@ import { workspaceIdentity } from '../src/tools.js';
 import { RouteError, type Route } from '../src/types.js';
 
 test('paused workflows resume without duplicating input or completed steps', async () => {
-  const root = await realpath(await mkdtemp(path.join(tmpdir(), 'robinhood-workflow-')));
+  const root = await realpath(await mkdtemp(path.join(tmpdir(), 'wallstreetclown-workflow-')));
   const filename = path.join(root, 'workflow.json');
   await writeFile(filename, JSON.stringify({ name: 'Review', steps: ['Inspect', 'Summarize'] }));
   const workflow = await readWorkflow(filename); const store = new Store(path.join(root, 'state.db')); const capabilities = new Capabilities();

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Robinhood — Workspace</title>
+    <title>WallStreetClown — Workspace</title>
     <style nonce="__NONCE__">
       :root {
         color-scheme: dark;
@@ -1017,7 +1017,7 @@
   <body>
     <div class="shell">
       <aside>
-        <div class="brand"><span>↗</span> ROBINHOOD</div>
+        <div class="brand"><span>↗</span> WALLSTREETCLOWN</div>
         <div class="edition">LOCAL AGENT // CONTROL ROOM</div>
         <nav class="nav" aria-label="Main navigation">
           <button class="active" data-page="workspace">
@@ -1205,7 +1205,7 @@
               <div class="eyebrow">Your provider network</div>
               <h1>Many accounts. One place.</h1>
               <p>
-                Manage connections and inspect usage recorded by Robinhood.
+                Manage connections and inspect usage recorded by WallStreetClown.
                 Provider-side allowances stay separate.
               </p>
             </div>
@@ -1264,7 +1264,7 @@
             <div>
               <div class="eyebrow">Make it yours</div>
               <h1>A workspace that fits.</h1>
-              <p>Personalize the interface and control how Robinhood works.</p>
+              <p>Personalize the interface and control how WallStreetClown works.</p>
             </div>
           </div>
           <div class="section-grid">
@@ -1338,8 +1338,8 @@
           <section class="card gap-top">
             <h2>Use both interfaces</h2>
             <p class="note">
-              Launch <code>robinhood</code> for the terminal or
-              <code>robinhood gui</code> for this interface. From the terminal,
+              Launch <code>wallstreetclown</code> for the terminal or
+              <code>wallstreetclown gui</code> for this interface. From the terminal,
               <code>/gui</code> opens this view on the same live session. Close
               the browser tab to leave the engine running;
               <code>/quit</code> exits the engine. One process owns the session
@@ -1347,7 +1347,7 @@
             </p>
             <p class="note">
               Cumulative totals cover saved session events. Deleting sessions
-              removes their usage records. Robinhood does not claim to know your
+              removes their usage records. WallStreetClown does not claim to know your
               remaining free balance or billable cost.
             </p>
           </section>
@@ -1359,10 +1359,10 @@
       const $ = (id) => document.getElementById(id);
       let token =
         location.hash.slice(1) ||
-        sessionStorage.getItem("robinhood-token") ||
+        sessionStorage.getItem("wallstreetclown-token") ||
         "";
       if (token) {
-        sessionStorage.setItem("robinhood-token", token);
+        sessionStorage.setItem("wallstreetclown-token", token);
         history.replaceState(null, "", location.pathname);
       }
       let state,
@@ -1407,7 +1407,7 @@
           .forEach((x) =>
             x.classList.toggle("active", x.dataset.page === name),
           );
-        document.title = "Robinhood — " + name[0].toUpperCase() + name.slice(1);
+        document.title = "WallStreetClown — " + name[0].toUpperCase() + name.slice(1);
       }
       function idle() {
         return state?.terminal.prompt?.label === "You >";
@@ -1751,7 +1751,7 @@
           ? idle()
             ? "Describe your task"
             : prompt.label
-          : "Robinhood is working — you can stop the current turn.";
+          : "WallStreetClown is working — you can stop the current turn.";
         $("send").disabled = !prompt || Boolean(prompt.choices);
         $("stop").disabled = idle();
         $("message").disabled = !prompt;
@@ -1829,7 +1829,7 @@
             }),
           );
         link.href = url;
-        link.download = "robinhood-usage.json";
+        link.download = "wallstreetclown-usage.json";
         link.click();
         setTimeout(() => URL.revokeObjectURL(url), 1000);
       };
@@ -1838,11 +1838,11 @@
         ["density", "compact", "compact"],
         ["details", "no-inspector", "hide"],
       ]) {
-        const saved = localStorage.getItem("robinhood-" + id);
+        const saved = localStorage.getItem("wallstreetclown-" + id);
         if (saved) $(id).value = saved;
         const apply = () => {
           document.body.classList.toggle(cls, $(id).value === value);
-          localStorage.setItem("robinhood-" + id, $(id).value);
+          localStorage.setItem("wallstreetclown-" + id, $(id).value);
         };
         $(id).onchange = apply;
         apply();

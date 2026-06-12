@@ -4,7 +4,7 @@ export type EntryFactory = (service: string, account: string) => EntryLike;
 
 // Separate entries avoid Windows credential-size limits and permit independent unlinking.
 export class AccountVault {
-  constructor(private readonly entry: EntryFactory, private readonly namespace = 'robinhood.accounts.v1') {}
+  constructor(private readonly entry: EntryFactory, private readonly namespace = 'wallstreetclown.accounts.v1') {}
   async load(provider: string): Promise<SavedAccount | undefined> {
     const raw = this.entry(this.namespace, provider).getPassword();
     if (!raw) return undefined;

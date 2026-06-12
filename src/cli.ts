@@ -31,14 +31,14 @@ import { RoutePool, automaticProviders } from './routing.js';
 import { usageSummary } from './usage.js';
 import { startGui } from './gui.js';
 
-const help = `Robinhood 0.0.1 / developer preview
+const help = `WallStreetClown 0.0.1 / developer preview
 
-  robinhood                           Open in the current project directory
-  robinhood gui                       Open the local browser interface
-  robinhood --workspace <directory>    Open a specific project
-  robinhood demo                      Offline handoff demonstration
-  robinhood login gemini-cli           Sign in with Google in the native CLI
-  robinhood login copilot-cli          Sign in with GitHub in the native CLI
+  wallstreetclown                           Open in the current project directory
+  wallstreetclown gui                       Open the local browser interface
+  wallstreetclown --workspace <directory>    Open a specific project
+  wallstreetclown demo                      Offline handoff demonstration
+  wallstreetclown login gemini-cli           Sign in with Google in the native CLI
+  wallstreetclown login copilot-cli          Sign in with GitHub in the native CLI
 
 Options: --workspace PATH, --data-dir PATH, --session ID, --yolo (default), --ask, --help, --version
 
@@ -100,7 +100,7 @@ async function main(): Promise<void> {
   const guiMode = process.argv[2] === 'gui';
   if (guiMode) process.argv.splice(2, 1);
   if (process.argv[2] === 'login') {
-    if (process.argv.length !== 4 || !['gemini-cli', 'copilot-cli'].includes(process.argv[3]!)) throw new Error('Use: robinhood login gemini-cli OR robinhood login copilot-cli');
+    if (process.argv.length !== 4 || !['gemini-cli', 'copilot-cli'].includes(process.argv[3]!)) throw new Error('Use: wallstreetclown login gemini-cli OR wallstreetclown login copilot-cli');
     if (process.argv[3] === 'gemini-cli') await loginGemini(); else await loginCopilot();
     return;
   }
@@ -109,7 +109,7 @@ async function main(): Promise<void> {
   if (values.yolo && values.ask) throw new Error('Choose --yolo or --ask, not both.');
   if (values.help) { console.log(help); return; }
   if (values.version) { console.log('0.0.1'); return; }
-  if (!guiMode && (!process.stdin.isTTY || !process.stdout.isTTY)) throw new Error('An interactive terminal is required. Use robinhood gui for the browser interface.');
+  if (!guiMode && (!process.stdin.isTTY || !process.stdout.isTTY)) throw new Error('An interactive terminal is required. Use wallstreetclown gui for the browser interface.');
   const workspace = await realpath(path.resolve(values.workspace ?? process.cwd()));
   const secrets = new Secrets();
   const store = new Store(path.join(path.resolve(values['data-dir'] ?? dataPath()), 'sessions.db'));
@@ -141,7 +141,7 @@ async function main(): Promise<void> {
   };
   const load = (id: string) => {
     const session = store.get(id);
-    if (session.workspace !== workspace) throw new Error(`Session belongs to ${session.workspace}. Launch Robinhood in that workspace to resume it.`);
+    if (session.workspace !== workspace) throw new Error(`Session belongs to ${session.workspace}. Launch WallStreetClown in that workspace to resume it.`);
     store.claim(session.id);
     current = session;
     terminal.line(`Resumed ${session.id}\nObjective: ${session.objective}`);
@@ -154,7 +154,7 @@ async function main(): Promise<void> {
       sessions: store.list().filter(session => session.workspace === workspace).slice(0, 100),
       operations: current ? store.operations(current.id).slice(-30) : [], chain: pool.enabled,
     }))));
-    if (guiMode) console.log(`Robinhood GUI: ${gui.url}\nKeep this process running. Ctrl+C exits.`);
+    if (guiMode) console.log(`WallStreetClown GUI: ${gui.url}\nKeep this process running. Ctrl+C exits.`);
     else terminal.line(`Local GUI: ${gui.url}`);
     await openBrowser(gui.url).catch(() => {});
   };
@@ -204,7 +204,7 @@ async function main(): Promise<void> {
           const entry = providerDefinition(id);
           const flow = id === 'openrouter' ? openRouterFlow : id === 'puter' ? puterFlow : undefined;
           const method = await terminal.select(`Connect ${entry.name}`, [
-            ...(flow ? [{ value: 'browser', label: 'Sign in with your browser', detail: id === 'puter' ? 'experimental Puter integration' : 'authorize Robinhood on OpenRouter' }] : []),
+            ...(flow ? [{ value: 'browser', label: 'Sign in with your browser', detail: id === 'puter' ? 'experimental Puter integration' : 'authorize WallStreetClown on OpenRouter' }] : []),
             ...(entry.anonymous || entry.bridge ? [{ value: 'anonymous', label: entry.bridge?.label ?? 'Continue without an account', detail: entry.bridge?.login ?? 'shared limits apply' }] : []),
             ...(entry.bridge ? [] : [{ value: 'key', label: 'Use an API credential', detail: 'saved in your OS credential vault' }]),
             ...(setupGuides[id] && !entry.bridge ? [{ value: 'setup', label: 'Open official account setup', detail: 'sign in there, then paste a credential once' }] : []),
@@ -430,7 +430,7 @@ async function main(): Promise<void> {
         if (command === '/export') {
           if (!argument) throw new Error('Supply a new export filename.');
           const session = required();
-          const payload = { format: 'robinhood-session-v1', session, messages: store.messages(session.id), operations: store.operations(session.id), events: store.events(session.id) };
+          const payload = { format: 'wallstreetclown-session-v1', session, messages: store.messages(session.id), operations: store.operations(session.id), events: store.events(session.id) };
           terminal.line(`Export ${payload.messages.length} messages and ${payload.operations.length} tool records to ${path.resolve(argument)}. This includes project content. Inspect /memory first if needed.`);
           if (await approvals.confirm('Write this requested export?', new AbortController().signal)) {
             await writeFile(path.resolve(argument), secrets.redact(JSON.stringify(payload, null, 2)) + '\n', { flag: 'wx', mode: 0o600 });

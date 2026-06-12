@@ -19,7 +19,7 @@ export async function startGui(terminal: Terminal, dashboard: () => unknown) {
       response.setHeader('Content-Security-Policy', `default-src 'none'; script-src 'nonce-${nonce}'; style-src 'nonce-${nonce}'; connect-src 'self'; img-src 'self' data:; base-uri 'none'; frame-ancestors 'none'; form-action 'none'`);
       response.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' }); response.end(html.replaceAll('__NONCE__', nonce)); return;
     }
-    if (request.headers.authorization !== `Bearer ${token}`) { json(401, { error: 'Open the private GUI URL printed by Robinhood.' }); return; }
+    if (request.headers.authorization !== `Bearer ${token}`) { json(401, { error: 'Open the private GUI URL printed by WallStreetClown.' }); return; }
     try {
       if (request.method === 'GET' && request.url === '/api/state') { json(200, { terminal: terminal.snapshot(), dashboard: dashboard() }); return; }
       if (request.method !== 'POST') { json(404, { error: 'Not found.' }); return; }

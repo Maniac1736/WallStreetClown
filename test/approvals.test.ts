@@ -10,7 +10,7 @@ import { workspaceIdentity } from '../src/tools.js';
 import type { Route } from '../src/types.js';
 
 test('default YOLO executes an account-dependent tool round trip with zero permission questions', async () => {
-  const root = await realpath(await mkdtemp(path.join(tmpdir(), 'robinhood-yolo-')));
+  const root = await realpath(await mkdtemp(path.join(tmpdir(), 'wallstreetclown-yolo-')));
   const store = new Store(path.join(root, 'state.db'));
   const decisions: boolean[] = [];
   const policy = new Approvals(undefined, async () => { throw new Error('YOLO must not ask for permission'); }, decision => decisions.push(decision.allowed));

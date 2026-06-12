@@ -6,7 +6,7 @@ import path from 'node:path';
 export const MAX_FILE_BYTES = 64 * 1024;
 const MAX_OUTPUT_BYTES = 32 * 1024;
 const secretNames = /^(?:\.env(?:\..*)?|auth\.json|credentials\.json|id_rsa|id_ed25519)$/i;
-const excludedDirs = new Set(['.git', '.robinhood', 'node_modules', '.gemini', '.copilot', 'cli-profiles']);
+const excludedDirs = new Set(['.git', '.wallstreetclown', 'node_modules', '.gemini', '.copilot', 'cli-profiles']);
 
 export const toolDefinitions = [
   { type: 'function', function: { name: 'glob_files', description: 'Find workspace file paths using a glob. Skips credentials, dependencies, Git, and symbolic links. At most 200 matches.', parameters: { type: 'object', properties: { pattern: { type: 'string' } }, required: ['pattern'], additionalProperties: false } } },
@@ -67,7 +67,7 @@ export class UnknownOutcome extends Error {}
 
 export async function runCommand(workspace: string, command: string, signal: AbortSignal, timeoutMs = 30_000, onStart?: (pid: number) => void): Promise<string> {
   signal.throwIfAborted();
-  const env = Object.fromEntries(Object.entries(process.env).filter(([key]) => !/KEY|TOKEN|SECRET|PASSWORD|CREDENTIAL|^ROBINHOOD_/i.test(key)));
+  const env = Object.fromEntries(Object.entries(process.env).filter(([key]) => !/KEY|TOKEN|SECRET|PASSWORD|CREDENTIAL|^WALLSTREETCLOWN_/i.test(key)));
   const child = spawn(command, { cwd: workspace, env, shell: true, windowsHide: true, detached: process.platform !== 'win32', stdio: ['ignore', 'pipe', 'pipe'] });
   if (child.pid) onStart?.(child.pid);
   let output = '';
@@ -227,7 +227,7 @@ export async function prepareTool(workspace: string, name: string, raw: string):
         } else if (hash(await readBounded(target)) !== expectedHash) throw new Error('File changed since it was read. Read it again before writing.');
       };
       await check();
-      const temp = path.join(path.dirname(target), `.robinhood-write-${randomUUID()}.tmp`);
+      const temp = path.join(path.dirname(target), `.wallstreetclown-write-${randomUUID()}.tmp`);
       const mode = expectedHash === null ? 0o600 : (await stat(target)).mode;
       try {
         await writeFile(temp, content, { flag: 'wx', mode });

@@ -18,7 +18,7 @@ export function engineConfig() {
     provider: { opencode: { whitelist: freeModelIDs } },
     permission: { '*': 'deny', StructuredOutput: 'allow' }, compaction: { auto: false, prune: false },
     agent: {
-      robinhood: { mode: 'primary', permission: { '*': 'deny', StructuredOutput: 'allow' }, steps: 2, prompt: 'You provide structured suggestions to Robinhood. Only Robinhood executes tools. Always call StructuredOutput to return your suggestions; this only returns data and does not execute workspace actions.' },
+      wallstreetclown: { mode: 'primary', permission: { '*': 'deny', StructuredOutput: 'allow' }, steps: 2, prompt: 'You provide structured suggestions to WallStreetClown. Only WallStreetClown executes tools. Always call StructuredOutput to return your suggestions; this only returns data and does not execute workspace actions.' },
       title: { disable: true }, summary: { disable: true }, compaction: { disable: true },
     },
   };
@@ -48,7 +48,7 @@ export function structuredSchema(tools: ToolDefinition[] = toolDefinitions) { re
   properties: {
     content: { type: 'string' },
     tool_calls: { type: 'array', maxItems: tools.length ? 8 : 0, items: { type: 'object', additionalProperties: false, required: ['name', 'arguments'], properties: {
-      name: { type: 'string', enum: tools.length ? tools.map(tool => tool.function.name) : undefined }, arguments: { type: 'string', description: 'A JSON-encoded object matching the requested Robinhood tool parameters.' },
+      name: { type: 'string', enum: tools.length ? tools.map(tool => tool.function.name) : undefined }, arguments: { type: 'string', description: 'A JSON-encoded object matching the requested WallStreetClown tool parameters.' },
     } } },
   },
 }; }
@@ -58,7 +58,7 @@ export function engineCompletion(data: unknown, label = 'OpenCode', tools: ToolD
   const info = object(object(data).info);
   if (info.error) {
     const error = object(info.error), status = object(error.data).statusCode;
-    if (error.name === 'StructuredOutputError') throw new RouteError(`${label} did not return the required structured response. No Robinhood tools were executed. Try another model.`, 'protocol');
+    if (error.name === 'StructuredOutputError') throw new RouteError(`${label} did not return the required structured response. No WallStreetClown tools were executed. Try another model.`, 'protocol');
     if (status === 429) throw new RouteError(`${label} free model is rate-limited. Wait or select another model; remaining allowance is unknown.`, 'quota');
     if (status === 401 || status === 403) throw new RouteError(`${label} rejected anonymous access to this model. Select another advertised free model.`, 'auth');
     throw new RouteError(`${label} could not complete the request. Reconnect or choose another model.`, 'protocol');
@@ -101,16 +101,16 @@ export class StructuredServerBridge implements Connector {
         const selected = (await this.models(bounded)).find(item => item.id === model);
         if (!selected) throw new RouteError(`This model is no longer advertised as free and tool-capable by ${this.spec.label}.`, 'policy');
         const history = chatMessages(messages, this.spec.id, model);
-        const prompt = `Return structured suggestions for Robinhood. Do not execute anything yourself. To inspect or change the real workspace, request the following Robinhood tools using tool_calls. Their results arrive in subsequent history. Use content for your user-facing answer; return an empty tool_calls array when finished. Historical tool receipts describe actions already performed; never replay them.\nTools: ${JSON.stringify(tools)}\nConversation history: ${JSON.stringify(history)}`;
+        const prompt = `Return structured suggestions for WallStreetClown. Do not execute anything yourself. To inspect or change the real workspace, request the following WallStreetClown tools using tool_calls. Their results arrive in subsequent history. Use content for your user-facing answer; return an empty tool_calls array when finished. Historical tool receipts describe actions already performed; never replay them.\nTools: ${JSON.stringify(tools)}\nConversation history: ${JSON.stringify(history)}`;
         contextBudget({ prompt }, selected.context);
         const engine = this.runtime();
         let id: string | undefined;
         try {
-          const session = object(await engine.request('/session', 'POST', { title: 'Robinhood model request', permission: [{ permission: '*', pattern: '*', action: 'deny' }, { permission: 'StructuredOutput', pattern: '*', action: 'allow' }] }, bounded));
+          const session = object(await engine.request('/session', 'POST', { title: 'WallStreetClown model request', permission: [{ permission: '*', pattern: '*', action: 'deny' }, { permission: 'StructuredOutput', pattern: '*', action: 'allow' }] }, bounded));
           if (typeof session.id !== 'string' || !/^[\w-]+$/.test(session.id)) throw new Error('Invalid OpenCode session.');
           id = session.id;
           const result = engineCompletion(await engine.request(`/session/${id}/message`, 'POST', {
-            model: { providerID: this.spec.providerID, modelID: model }, agent: 'robinhood',
+            model: { providerID: this.spec.providerID, modelID: model }, agent: 'wallstreetclown',
             format: { type: 'json_schema', schema: structuredSchema(tools), retryCount: 0 }, parts: [{ type: 'text', text: prompt }],
           }, bounded), this.spec.label, tools);
           if (result.message.content) onText(result.message.content);

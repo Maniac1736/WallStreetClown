@@ -1,6 +1,6 @@
 # Security and local data
 
-Robinhood is an early developer preview. Use a small repository you can inspect while the workflow matures.
+WallStreetClown is an early developer preview. Use a small repository you can inspect while the workflow matures.
 
 ## Permission modes
 
@@ -10,18 +10,18 @@ YOLO is not authorization for unrelated communications, purchases, publication o
 
 ## Reporting a vulnerability
 
-Use [GitHub private vulnerability reporting](https://github.com/AmRitJain0442/robinhood/security/advisories/new) for credential exposure, unintended execution, data loss, or cost-policy bypasses. Include reproduction steps and synthetic examples. Do not put credentials or private source code into a public issue.
+Use [GitHub private vulnerability reporting](https://github.com/Maniac1736/wallstreetclown/security/advisories/new) for credential exposure, unintended execution, data loss, or cost-policy bypasses. Include reproduction steps and synthetic examples. Do not put credentials or private source code into a public issue.
 
 The current development branch is the only supported version. There is no stable release or response-time guarantee yet.
 
 ## Credentials and project content
 
 - API connector credentials come from supported browser authorization, a hidden prompt, or the documented environment variable. Interactive connections are stored in Windows Credential Manager, macOS Keychain, or Linux Secret Service. There is no plaintext fallback: unavailable vaults mean process-only connections. Environment credentials are never copied into the vault. Credentials are not stored in the session database.
-- Saved accounts are shared across Robinhood workspaces and data directories for the current OS user. `/disconnect PROVIDER` removes the saved credential; revoke it at the provider to invalidate it remotely. Environment credentials will reload on restart if still set.
-- Browser authorization binds a temporary loopback listener to 127.0.0.1, validates a random callback path and Host, accepts one response, expires after three minutes, and closes on cancellation. OpenRouter additionally uses S256 PKCE. Puter's experimental authme flow returns a bearer token through the callback; it can appear in browser history. Robinhood never requests Google passwords or imports browser cookies.
+- Saved accounts are shared across WallStreetClown workspaces and data directories for the current OS user. `/disconnect PROVIDER` removes the saved credential; revoke it at the provider to invalidate it remotely. Environment credentials will reload on restart if still set.
+- Browser authorization binds a temporary loopback listener to 127.0.0.1, validates a random callback path and Host, accepts one response, expires after three minutes, and closes on cancellation. OpenRouter additionally uses S256 PKCE. Puter's experimental authme flow returns a bearer token through the callback; it can appear in browser history. WallStreetClown never requests Google passwords or imports browser cookies.
 - Known keys are redacted from model-visible messages, saved tool results, terminal output, and exports. This is not a general-purpose scanner for every secret in source code.
-- Sessions contain prompts, model responses, tool arguments/results, and workspace paths. They are local but are not encrypted by Robinhood.
-- Default storage is `%LOCALAPPDATA%\Robinhood` on Windows, `~/Library/Application Support/Robinhood` on macOS, or `$XDG_DATA_HOME/robinhood` / `~/.local/share/robinhood` on Linux. `--data-dir` overrides it.
+- Sessions contain prompts, model responses, tool arguments/results, and workspace paths. They are local but are not encrypted by WallStreetClown.
+- Default storage is `%LOCALAPPDATA%\WallStreetClown` on Windows, `~/Library/Application Support/WallStreetClown` on macOS, or `$XDG_DATA_HOME/wallstreetclown` / `~/.local/share/wallstreetclown` on Linux. `--data-dir` overrides it.
 - Directories created on POSIX use restrictive modes; Windows uses inherited account permissions. Protect the containing directory and your OS account.
 - Cloud inference sends conversation context and approved tool results to the selected provider and any upstream provider it uses. Review their data-use terms before using sensitive code.
 - Export files may contain project content. Session deletion removes application records; it does not erase prior exports, OS backups, or every underlying SQLite disk page.
@@ -32,7 +32,7 @@ File tools resolve workspace paths, exclude common credential paths (including `
 
 An approved shell command runs with your user privileges. These prompts are **not an OS sandbox**; commands can access files or services outside the workspace. The app imposes process/output limits and removes credential-like environment variables from tool processes, but it cannot prevent a deliberately approved command from reading files accessible to your account.
 
-If Robinhood cannot establish whether an interrupted command finished, it stops. Inspect `/pending`, check the workspace/process state, and use `/resolve` to record the outcome you verified. Do not mark an operation complete merely to bypass the pause.
+If WallStreetClown cannot establish whether an interrupted command finished, it stops. Inspect `/pending`, check the workspace/process state, and use `/resolve` to record the outcome you verified. Do not mark an operation complete merely to bypass the pause.
 
 Background jobs and persistent shells are session-owned and close on normal exit. Crashes can leave native processes running; inspect `/jobs` or `/terminals` and their saved PIDs before reconciliation. Input accepted by a terminal is not a completed-command receipt. Plan mode blocks mutation tools and all extension tools in code, including calls a model invents despite the restricted catalog.
 
@@ -44,13 +44,13 @@ Compaction changes the model's projected context, not the saved transcript. Pinn
 
 ## Native CLI accounts
 
-Gemini and Copilot own login and refresh in dedicated profiles under the default Robinhood data directory, shared across workspaces and unaffected by session `--data-dir` overrides. Robinhood stores only their connection markers in its vault. Native credential storage follows the CLI's behavior; Copilot may fall back to plaintext when its credential store is unavailable. These credentials are not registered in Robinhood's key redactor. Profiles may retain conversation copies. Disconnecting a bridge does not erase its native profile or revoke provider authorization.
+Gemini and Copilot own login and refresh in dedicated profiles under the default WallStreetClown data directory, shared across workspaces and unaffected by session `--data-dir` overrides. WallStreetClown stores only their connection markers in its vault. Native credential storage follows the CLI's behavior; Copilot may fall back to plaintext when its credential store is unavailable. These credentials are not registered in WallStreetClown's key redactor. Profiles may retain conversation copies. Disconnecting a bridge does not erase its native profile or revoke provider authorization.
 
-All four CLI bridges disable native workspace tools and validate model proposals before Robinhood approvals. Gemini/Copilot launch with separate settings and no inherited API/account tokens. These controls are not an OS sandbox. Native engines may retry or make utility requests within the two-minute deadline. Account allowances remain unknown; account-based requests require explicit confirmation.
+All four CLI bridges disable native workspace tools and validate model proposals before WallStreetClown approvals. Gemini/Copilot launch with separate settings and no inherited API/account tokens. These controls are not an OS sandbox. Native engines may retry or make utility requests within the two-minute deadline. Account allowances remain unknown; account-based requests require explicit confirmation.
 
 ## Model access and cost
 
-The optional [OpenCode CLI bridge](docs/OPENCODE.md) launches an isolated local engine with no personal credentials. Its native workspace tools are denied; structured suggestions go through Robinhood's normal approval and receipt flow. The engine may retry internally within a two-minute deadline, and its zero-price catalog check applies per bridge request. This is a different request boundary from the direct API adapters. Temporary engine copies of task context are removed on normal shutdown; forced crashes can leave them in the OS temp directory.
+The optional [OpenCode CLI bridge](docs/OPENCODE.md) launches an isolated local engine with no personal credentials. Its native workspace tools are denied; structured suggestions go through WallStreetClown's normal approval and receipt flow. The engine may retry internally within a two-minute deadline, and its zero-price catalog check applies per bridge request. This is a different request boundary from the direct API adapters. Temporary engine copies of task context are removed on normal shutdown; forced crashes can leave them in the OS temp directory.
 
 The implemented connector checks OpenRouter's catalog before each request and admits only explicit free, tool-capable routes with zero published pricing. It requests no gateway fallback and makes no implicit transport retries. Unknown pricing blocks the request.
 

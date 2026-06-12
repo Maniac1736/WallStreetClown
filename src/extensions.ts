@@ -49,7 +49,7 @@ export async function loadMcp(filename: string, capabilities: Capabilities, sign
     const url = new URL(config.url);
     if (url.protocol !== 'https:' || url.username || url.password) throw new Error('Remote MCP requires HTTPS without URL credentials.');
   }
-  const client = new Client({ name: 'robinhood', version: '0.0.1' });
+  const client = new Client({ name: 'wallstreetclown', version: '0.0.1' });
   const transport = config.url ? new StreamableHTTPClientTransport(new URL(config.url)) : new StdioClientTransport({ command: config.command!, args: config.args ?? [], env: minimalEnvironment() as Record<string, string>, stderr: 'pipe', maxBufferSize: 1024 * 1024 });
   if (transport instanceof StdioClientTransport) transport.stderr?.on('data', () => {});
   const abort = () => { void client.close(); };

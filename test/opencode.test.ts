@@ -64,12 +64,12 @@ test('OpenCode cancellation closes the owned engine and allows a fresh connectio
 for (const variant of [
   { name: 'OpenCode', packageName: 'opencode-ai', providerID: 'opencode', model: 'big-pickle', config: engineConfig,
     bridge: (config: unknown) => new OpenCodeBridge(() => new OpenCodeProcess(config)) },
-  { name: 'Kilo', packageName: '@kilocode/cli', providerID: 'kilo', model: 'robinhood/fixture:free', config: kiloConfig,
+  { name: 'Kilo', packageName: '@kilocode/cli', providerID: 'kilo', model: 'wallstreetclown/fixture:free', config: kiloConfig,
     bridge: (config: unknown) => new KiloBridge(() => new KiloProcess(config)) },
 ]) {
 let installed = true;
 try { createRequire(import.meta.url).resolve(`${variant.packageName}/package.json`); } catch { installed = false; }
-test(`real ${variant.name} CLI routes a structured tool through Robinhood approval and retains its receipt`, { skip: !installed, timeout: 60000 }, async () => {
+test(`real ${variant.name} CLI routes a structured tool through WallStreetClown approval and retains its receipt`, { skip: !installed, timeout: 60000 }, async () => {
   const requests: Array<Record<string, any>> = [];
   const mock = createServer(async (req, res) => {
     if (req.method === 'GET') {
@@ -94,7 +94,7 @@ test(`real ${variant.name} CLI routes a structured tool through Robinhood approv
     models: { [variant.model]: { name: 'Fixture', limit: { context: 128000, output: 4096 }, tool_call: true, cost: { input: 0, output: 0, cache_read: 0, cache_write: 0 } } },
   } } };
   const bridge = variant.bridge(fixture);
-  const scratch = await mkdtemp(path.join(tmpdir(), 'robinhood-bridge-test-'));
+  const scratch = await mkdtemp(path.join(tmpdir(), 'wallstreetclown-bridge-test-'));
   const store = new Store(path.join(scratch, 'sessions.db'));
   const session = store.create(scratch, await workspaceIdentity(scratch), 'Create the fixture file once.');
   let approvals = 0;

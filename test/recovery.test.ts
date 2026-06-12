@@ -11,7 +11,7 @@ import { demo } from '../src/demo.js';
 import { workspaceIdentity } from '../src/tools.js';
 import type { Message, Route } from '../src/types.js';
 
-const workspace = async () => realpath(await mkdtemp(path.join(tmpdir(), 'robinhood recovery test ')));
+const workspace = async () => realpath(await mkdtemp(path.join(tmpdir(), 'wallstreetclown recovery test ')));
 const ui = { text() {}, status() {}, approve: async () => true };
 
 test('quota after a completed tool preserves context, executes once, and reopens the database', { timeout: 30_000 }, async () => {
@@ -27,7 +27,7 @@ test('a real process crash after the side effect becomes unknown and blocks mode
   child.stderr.on('data', data => { output += data; });
   const code = await new Promise<number | null>((resolve, reject) => { child.once('error', reject); child.once('close', resolve); });
   assert.equal(code, 91, output);
-  const store = new Store(path.join(directory, '.robinhood', 'sessions.db'));
+  const store = new Store(path.join(directory, '.wallstreetclown', 'sessions.db'));
   try {
     const session = store.get(await readFile(path.join(directory, 'session-id.txt'), 'utf8'));
     const [operation] = store.operations(session.id);

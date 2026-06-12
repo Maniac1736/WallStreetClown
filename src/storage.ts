@@ -14,7 +14,7 @@ export class Store {
     mkdirSync(path.dirname(filename), { recursive: true, mode: 0o700 });
     this.db = new Database(filename);
     try {
-      if (Number(this.db.pragma('user_version', { simple: true })) > 2) throw new Error('This database needs a newer Robinhood version.');
+      if (Number(this.db.pragma('user_version', { simple: true })) > 2) throw new Error('This database needs a newer WallStreetClown version.');
       this.db.pragma('journal_mode = WAL');
       this.db.pragma('synchronous = FULL');
       this.db.pragma('foreign_keys = ON');
@@ -46,7 +46,7 @@ export class Store {
       this.db.transaction(() => {
         const previous = this.db.prepare('SELECT * FROM owner WHERE id=1').get() as { pid: number; token: string } | undefined;
         if (previous) {
-          if (ownerIsAlive(previous)) throw new Error(`An older Robinhood process (${previous.pid}) is using this database. Exit it with /quit and relaunch once to enable simultaneous sessions.`);
+          if (ownerIsAlive(previous)) throw new Error(`An older WallStreetClown process (${previous.pid}) is using this database. Exit it with /quit and relaunch once to enable simultaneous sessions.`);
         }
         this.db.prepare('DELETE FROM owner').run();
         this.db.pragma('user_version = 2');

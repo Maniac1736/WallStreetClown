@@ -15,7 +15,7 @@ node --version
 test "$(git rev-parse HEAD)" = "$EXPECTED_BASE"
 test -z "$(git status --porcelain)"
 python --version
-node --input-type=module -e 'import { createRequire } from "node:module"; const r = createRequire("/opt/robinhood/package.json"); const D = r("better-sqlite3"); const db = new D(":memory:"); console.log(db.prepare("SELECT 1 AS ok").get()); db.close(); for (const p of ["opencode-ai", "@kilocode/cli", "node-pty"]) console.log(p, r(p + "/package.json").version);'
+node --input-type=module -e 'import { createRequire } from "node:module"; const r = createRequire("/opt/wallstreetclown/package.json"); const D = r("better-sqlite3"); const db = new D(":memory:"); console.log(db.prepare("SELECT 1 AS ok").get()); db.close(); for (const p of ["opencode-ai", "@kilocode/cli", "node-pty"]) console.log(p, r(p + "/package.json").version);'
 '''
     result = engine.containers.run(image.id, command=['bash', '-c', script], network_disabled=True,
                                   environment={'EXPECTED_BASE': tasks[task_id]['base_commit']},

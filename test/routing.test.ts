@@ -46,7 +46,7 @@ test('unavailable catalogs do not block healthy providers; cancellation stops di
 });
 
 test('more than twelve failed routes reach a healthy model with saved context; policy denial never switches', async () => {
-  const root = await realpath(await mkdtemp(path.join(tmpdir(), 'robinhood-chain-')));
+  const root = await realpath(await mkdtemp(path.join(tmpdir(), 'wallstreetclown-chain-')));
   const store = new Store(path.join(root, 'state.db'));
   try {
     const session = store.create(root, await workspaceIdentity(root), 'Finish the task');

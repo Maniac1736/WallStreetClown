@@ -1,8 +1,8 @@
-# Robinhood: end-to-end delivery plan
+# WallStreetClown: end-to-end delivery plan
 
 - **Plan date:** 2026-09-15
 - **Stage:** first developer preview implemented; broader release gates remain open
-- **Initial maintainer:** [AmRitJain0442](https://github.com/AmRitJain0442)
+- **Initial maintainer:** [Maniac1736](https://github.com/Maniac1736)
 
 ## Implementation snapshot - 2026-09-16
 
@@ -21,7 +21,7 @@ Build a terminal coding companion that keeps a task moving across the user's sup
 
 The first users are individual developers and students who already use several model providers and lose time rebuilding context between them. The first workflow is a bounded change to an existing local Git repository: understand a bug, edit files, run a test, and review the result.
 
-**The release-defining demonstration:** a developer connects two eligible providers, starts a coding task, encounters a simulated quota failure after a tool completes, continues on the other provider, restarts Robinhood, and finishes the same task. The completed tool is not replayed, the workspace is preserved, and every provider transition has a visible reason.
+**The release-defining demonstration:** a developer connects two eligible providers, starts a coding task, encounters a simulated quota failure after a tool completes, continues on the other provider, restarts WallStreetClown, and finishes the same task. The completed tool is not replayed, the workspace is preserved, and every provider transition has a visible reason.
 
 ### Success measures
 
@@ -60,13 +60,13 @@ These are acceptance targets, not current product capabilities or claims about m
 
 ### Outside this plan
 
-Cloud accounts for Robinhood, hosted databases, team billing, a model marketplace, autonomous agent swarms, a browser IDE, and a plugin marketplace. No shared credential pool, automated account creation, consumer-session scraping, or promise of unlimited free tokens. No background git commit, push, deployment, or destructive cleanup without the user's explicit instruction.
+Cloud accounts for WallStreetClown, hosted databases, team billing, a model marketplace, autonomous agent swarms, a browser IDE, and a plugin marketplace. No shared credential pool, automated account creation, consumer-session scraping, or promise of unlimited free tokens. No background git commit, push, deployment, or destructive cleanup without the user's explicit instruction.
 
 ## 3. User experience
 
 ### First run
 
-1. Open Robinhood inside a repository. Show the workspace root and start with tool execution awaiting approval.
+1. Open WallStreetClown inside a repository. Show the workspace root and start with tool execution awaiting approval.
 2. Connect a supported provider through an API-key prompt; use an official browser/device flow only where that provider documents it. Never ask for a provider password.
 3. Show available eligible models, how their allowance is measured, the evidence date, and any unknown account limit.
 4. Let the user choose providers allowed to receive this project's context. Save this choice locally.
@@ -204,7 +204,7 @@ Treat an official coding agent as an agent session with its own tools and lifecy
 | Model route becomes paid or eligibility cannot be established | Block the route under free-access policy |
 | Several models share an account quota | Debit/report one shared group; do not sum the same pool |
 | Context shrinks on provider switch | Compact with provenance or decline the route; retain full source history |
-| Files change outside Robinhood | Detect stale file references and patch conflicts; re-read before writing |
+| Files change outside WallStreetClown | Detect stale file references and patch conflicts; re-read before writing |
 | Tool output contains instructions or secrets | Treat output as data; permissions stay external to the model; apply credential redaction |
 | Windows junction or symlink escapes the workspace | Recheck resolved paths at the tool boundary |
 | Restart with a different checkout or renamed directory | Request workspace reconciliation; do not assume path equality proves identity |

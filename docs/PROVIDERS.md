@@ -8,7 +8,7 @@ The terminal can retain multiple provider connections and switch the selected mo
 
 ## Original launch cohort: three model APIs
 
-| Provider | Planned connection | Published allowance signal | What Robinhood must verify |
+| Provider | Planned connection | Published allowance signal | What WallStreetClown must verify |
 | --- | --- | --- | --- |
 | OpenRouter | API key; explicit eligible free model routes | Free plan lists 50 requests/day and 20 requests/minute; this is not a daily token grant | Current route pricing, tool support, account-specific limits, and any underlying provider restrictions |
 | Gemini Developer API | API key tied to a Google project | Selected models have a free tier; current limits appear in AI Studio and vary by project/model | Project billing tier, selected model's free eligibility, request/token windows, and data-use disclosure |
@@ -73,7 +73,7 @@ Check model catalog freshness at connection and before starting a new session. U
 
 Apply the policy to retries, helper models, summarization, built-in search, and gateway fallback behavior. A free text route does not authorize a separately charged tool. Restrict gateway upstream routing when the user's project policy requires it; if that restriction cannot be guaranteed, exclude the route for that project.
 
-Robinhood can enforce which requests it sends. It cannot guarantee a provider's billing system or detect every external account-setting change. Use provider-side controls where available and state the evidence boundary clearly.
+WallStreetClown can enforce which requests it sends. It cannot guarantee a provider's billing system or detect every external account-setting change. Use provider-side controls where available and state the evidence boundary clearly.
 
 ## Allowance display and accounting
 

@@ -1,13 +1,13 @@
-# Harness features in Robinhood's terminal
+# Harness features in WallStreetClown's terminal
 
 > Permission mode: the terminal now defaults to YOLO, which satisfies runtime approval gates without prompting. `--ask` or `/permissions ask` restores per-action confirmations. References below to approval describe the execution gate; interactive confirmation applies in ask mode. Account-dependent requests may consume credits. Plan mode and uncertain-outcome checks remain enforced.
 
 
-The official MIT-licensed [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) is the feature reference, reviewed at `0d1f50007f9bca3f52b06e1c3074fa14d5fb0720` on 2026-09-16. Per the user's chosen direction, features are implemented in Robinhood's TypeScript runtime and terminal. DeepSeek Harness is **not** an installed dependency, embedded web application, or additional token provider.
+The official MIT-licensed [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) is the feature reference, reviewed at `0d1f50007f9bca3f52b06e1c3074fa14d5fb0720` on 2026-09-16. Per the user's chosen direction, features are implemented in WallStreetClown's TypeScript runtime and terminal. DeepSeek Harness is **not** an installed dependency, embedded web application, or additional token provider.
 
 ## Implemented
 
-| Area | Native Robinhood behavior |
+| Area | Native WallStreetClown behavior |
 | --- | --- |
 | Agent prompt | User-supplied base template adapted in `prompts/system.md`; `/prompt` displays it; requests record its SHA-256 |
 | Tool catalog | 21 built-in tools plus explicitly loaded extensions; per-request catalogs reach API adapters and CLI bridges |
@@ -30,11 +30,11 @@ The official MIT-licensed [DeepSeek Harness](https://github.com/deepseek-ai/deep
 | Workflows | `/workflow FILE.json` reviews and executes prompt steps; `/workflow-resume` continues saved progress |
 | TUI | Plan/execution indicator, checklist progress and worker count; `/capabilities` displays available tools |
 
-These are native features, not full upstream parity. Cordis packages cannot be loaded as Robinhood plugins unchanged.
+These are native features, not full upstream parity. Cordis packages cannot be loaded as WallStreetClown plugins unchanged.
 
 ## Quick start
 
-Start `robinhood`, connect/select a model, then:
+Start `wallstreetclown`, connect/select a model, then:
 
 ```text
 /plan on

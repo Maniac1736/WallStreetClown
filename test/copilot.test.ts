@@ -16,7 +16,7 @@ test('Copilot requires explicit account consent before starting its CLI', async 
   const bridge = new CopilotBridge({ run: async () => { calls++; return '{}'; } });
   await assert.rejects(bridge.route('claude-haiku-4.5').complete([], new AbortController().signal, () => {}), /approv|confirm/i);
   assert.equal(calls, 0);
-  assert.ok(copilotSafetyArgs.includes('--available-tools=robinhood_no_native_tools'));
+  assert.ok(copilotSafetyArgs.includes('--available-tools=wallstreetclown_no_native_tools'));
   assert.ok(!copilotSafetyArgs.includes('--allow-all-tools'));
 });
 
@@ -38,7 +38,7 @@ test('real Copilot CLI uses stdin history without native tools and returns appro
     } else { res.writeHead(200, { 'content-type': 'application/json' }); res.end(JSON.stringify({ ...base, choices: [{ index: 0, message: { role: 'assistant', content: JSON.stringify(result) }, finish_reason: 'stop' }] })); }
   });
   mock.listen(0, '127.0.0.1'); await once(mock, 'listening');
-  const scratch = await mkdtemp(path.join(tmpdir(), 'robinhood-copilot-fixture-'));
+  const scratch = await mkdtemp(path.join(tmpdir(), 'wallstreetclown-copilot-fixture-'));
   const profile = path.join(scratch, 'profile');
   const fixture = { baseURL: `http://127.0.0.1:${(mock.address() as { port: number }).port}/v1` };
   const prepared = await prepareCopilot(profile, fixture);

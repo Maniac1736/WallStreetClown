@@ -7,7 +7,7 @@ import { Jobs } from '../src/jobs.js';
 import { Store } from '../src/storage.js';
 
 test('background jobs stop, persist their outcome and cannot be stopped across sessions', async () => {
-  const root = await realpath(await mkdtemp(path.join(tmpdir(), 'robinhood-jobs-')));
+  const root = await realpath(await mkdtemp(path.join(tmpdir(), 'wallstreetclown-jobs-')));
   const store = new Store(path.join(root, 'state.db'));
   const jobs = new Jobs();
   try {

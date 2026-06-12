@@ -1,6 +1,6 @@
 # Local research and runtime data
 /research/
-/.robinhood/
+/.wallstreetclown/
 *.db
 *.db-shm
 *.db-wal

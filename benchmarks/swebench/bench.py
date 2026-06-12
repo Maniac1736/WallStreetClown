@@ -14,11 +14,11 @@ import time
 import uuid
 
 ROOT = Path(__file__).resolve().parents[2]
-STATE = ROOT / '.robinhood' / 'swebench'
+STATE = ROOT / '.wallstreetclown' / 'swebench'
 DATASET = 'princeton-nlp/SWE-bench_Lite'
 REVISION = '6ec7bb89b9342f664a54a6e0a6ea6501d3437cc2'
 HARNESS = '3f01bd622c0a22c00406139f69a234ef08225f22'
-RUNTIME = 'robinhood-swebench-runtime:prepared'
+RUNTIME = 'wallstreetclown-swebench-runtime:prepared'
 PROVIDERS = ['kilo', 'opencode', 'kilo-cli']
 
 
@@ -37,7 +37,7 @@ def public_task(row):
 
 
 def pilot_ids(rows):
-    return [row['instance_id'] for row in sorted(rows, key=lambda row: hashlib.sha256(('robinhood-lite-pilot-v1:' + row['instance_id']).encode()).hexdigest())[:10]]
+    return [row['instance_id'] for row in sorted(rows, key=lambda row: hashlib.sha256(('wallstreetclown-lite-pilot-v1:' + row['instance_id']).encode()).hexdigest())[:10]]
 
 
 def client():
@@ -53,7 +53,7 @@ def prepare():
     rows = [dict(row) for row in load_dataset(DATASET, revision=REVISION, split='test')]
     assert len(rows) == 300 and len({row['instance_id'] for row in rows}) == 300
     runtime = client().images.get(RUNTIME)
-    runtime_reference = 'robinhood-swebench-runtime:' + runtime.id.split(':')[1][:16]
+    runtime_reference = 'wallstreetclown-swebench-runtime:' + runtime.id.split(':')[1][:16]
     runtime.tag(runtime_reference)
     # This private file belongs only to the controller/evaluator, never a mount.
     save(STATE / 'evaluation-data.json', rows)
@@ -89,7 +89,7 @@ def doctor():
     except Exception as error:
         save(STATE / 'readiness.json', dict(ready=False, checked_at=time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
              benchmark_started=(STATE / 'runs').exists(), error=str(error), model_requests_during_setup=0))
-        raise RuntimeError('Readiness check failed. Check Docker Desktop is running with Ubuntu WSL integration enabled; inspect .robinhood/swebench/readiness.json for details.') from error
+        raise RuntimeError('Readiness check failed. Check Docker Desktop is running with Ubuntu WSL integration enabled; inspect .wallstreetclown/swebench/readiness.json for details.') from error
 
 
 def check_readiness():
@@ -148,14 +148,14 @@ def build_task_image(engine, profile, base, label, base_commit):
     dockerfile = f'''FROM {profile['runtime_reference']} AS runtime
 FROM {base.attrs['RepoDigests'][0]}
 COPY --from=runtime /usr/local /usr/local
-COPY --from=runtime /opt/robinhood /opt/robinhood
+COPY --from=runtime /opt/wallstreetclown /opt/wallstreetclown
 ENV PATH=/opt/miniconda3/envs/testbed/bin:/opt/miniconda3/bin:/usr/local/bin:/usr/bin:/bin
-ENV ROBINHOOD_BENCHMARK=swebench-lite
+ENV WALLSTREETCLOWN_BENCHMARK=swebench-lite
 WORKDIR /testbed
 RUN git checkout --detach {base_commit} && git reset --hard {base_commit}
-CMD ["node", "/opt/robinhood/dist/src/benchmark-worker.js"]
+CMD ["node", "/opt/wallstreetclown/dist/src/benchmark-worker.js"]
 '''
-    image, _ = engine.images.build(fileobj=io.BytesIO(dockerfile.encode()), rm=True, labels={'robinhood.benchmark': label})
+    image, _ = engine.images.build(fileobj=io.BytesIO(dockerfile.encode()), rm=True, labels={'wallstreetclown.benchmark': label})
     return image
 
 
@@ -164,7 +164,7 @@ def run(profile_name):
     engine = client()
     if engine.images.get(profile['runtime_reference']).id != profile['runtime_image']:
         raise RuntimeError('Prepared runtime image changed; prepare a fresh manifest.')
-    run_id = f"robinhood-lite-{profile_name}-{time.strftime('%Y%m%d-%H%M%S')}-{uuid.uuid4().hex[:6]}"
+    run_id = f"wallstreetclown-lite-{profile_name}-{time.strftime('%Y%m%d-%H%M%S')}-{uuid.uuid4().hex[:6]}"
     output = STATE / 'runs' / run_id
     output.mkdir(parents=True, exist_ok=False)
     save(output / 'manifest.json', dict(profile, run_id=run_id))
@@ -187,7 +187,7 @@ def run(profile_name):
             save(directory / 'images.json', dict(base=base.id, repo_digests=base.attrs.get('RepoDigests'), runtime=profile['runtime_image'], task=image.id))
             task = dict(tasks[instance_id], timeout_seconds=profile['timeout_seconds'], providers=profile['providers'])
             # Anonymous free providers by default; do not inherit host secrets.
-            container = engine.containers.create(image.id, name=f'rh-{uuid.uuid4().hex}', mem_limit=profile['memory'], nano_cpus=int(profile['cpus'] * 1e9), pids_limit=512, cap_drop=['ALL'], security_opt=['no-new-privileges'], labels={'robinhood.benchmark': run_id})
+            container = engine.containers.create(image.id, name=f'rh-{uuid.uuid4().hex}', mem_limit=profile['memory'], nano_cpus=int(profile['cpus'] * 1e9), pids_limit=512, cap_drop=['ALL'], security_opt=['no-new-privileges'], labels={'wallstreetclown.benchmark': run_id})
             container.put_archive('/', task_archive(task))
             container.start()
             try:
@@ -212,7 +212,7 @@ def run(profile_name):
             if image is not None:
                 engine.images.remove(image.id)
         patch = (directory / 'patch.diff').read_text(encoding='utf-8') if (directory / 'patch.diff').exists() else ''
-        predictions.append(dict(instance_id=instance_id, model_name_or_path='robinhood-auto', model_patch=patch))
+        predictions.append(dict(instance_id=instance_id, model_name_or_path='wallstreetclown-auto', model_patch=patch))
         temporary = output / 'predictions.jsonl.tmp'
         temporary.write_text(''.join(json.dumps(row) + '\n' for row in predictions), encoding='utf-8')
         temporary.replace(output / 'predictions.jsonl')

@@ -27,7 +27,7 @@ export async function fetchPublicPage(input: string, signal: AbortSignal): Promi
       const req = (url.protocol === 'https:' ? httpsRequest : httpRequest)(url, { signal: bounded, family: selected.family, lookup: (_name, options, callback) => {
         if (typeof options === 'object' && options.all) callback(null, [selected]);
         else callback(null, selected.address, selected.family);
-      }, headers: { 'user-agent': 'Robinhood/0.0.1', accept: 'text/html,text/plain,application/json', 'accept-encoding': 'identity' } }, res => {
+      }, headers: { 'user-agent': 'WallStreetClown/0.0.1', accept: 'text/html,text/plain,application/json', 'accept-encoding': 'identity' } }, res => {
         const type = String(res.headers['content-type'] ?? '');
         if (res.statusCode && [301, 302, 303, 307, 308].includes(res.statusCode)) { res.resume(); resolve({ status: res.statusCode, location: res.headers.location, type, text: '' }); return; }
         if (!/^(text\/|application\/(json|xml))/i.test(type)) { res.destroy(); reject(new Error('Only text web responses are supported.')); return; }

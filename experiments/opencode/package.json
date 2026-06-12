@@ -1,5 +1,5 @@
 {
-  "name": "robinhood-opencode-feasibility",
+  "name": "wallstreetclown-opencode-feasibility",
   "private": true,
   "type": "module",
   "scripts": { "probe": "node probe.mjs" },

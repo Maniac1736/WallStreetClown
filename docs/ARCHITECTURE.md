@@ -4,7 +4,7 @@
 
 ## System shape
 
-One local application owns the user experience, routing policy, and durable task state. A single chosen execution engine runs the coding loop. No Robinhood cloud account or hosted service is required.
+One local application owns the user experience, routing policy, and durable task state. A single chosen execution engine runs the coding loop. No WallStreetClown cloud account or hosted service is required.
 
 ```mermaid
 flowchart TD
@@ -27,7 +27,7 @@ These are code boundaries, not separate microservices. The application executes 
 
 The original evaluation criteria below explain how that decision was made; they are not a second runtime under development.
 
-**Preferred experiment:** a thin Robinhood coordinator around a pinned OpenCode server and its supported TypeScript SDK. The SDK documents session messages, per-prompt model selection, permissions, cancellation, and event subscriptions. That makes reuse worth testing; it does not establish the recovery guarantees this product needs. [OpenCode SDK](https://opencode.ai/docs/sdk/), [server interface](https://opencode.ai/docs/server/).
+**Preferred experiment:** a thin WallStreetClown coordinator around a pinned OpenCode server and its supported TypeScript SDK. The SDK documents session messages, per-prompt model selection, permissions, cancellation, and event subscriptions. That makes reuse worth testing; it does not establish the recovery guarantees this product needs. [OpenCode SDK](https://opencode.ai/docs/sdk/), [server interface](https://opencode.ai/docs/server/).
 
 Timebox the experiment inside M1. It must prove:
 
@@ -41,7 +41,7 @@ Timebox the experiment inside M1. It must prove:
 
 **Decision rule:** reuse OpenCode only if the mandatory controls are enforceable through supported interfaces and bounded configuration. Otherwise use a small direct provider loop with established SDKs. Choose once, document measurements, and remove the discarded experiment from the shipping path. Do not build a runtime plugin framework or maintain two engines in v0.1.
 
-OpenCode documents API-key storage in a local `auth.json` file. An OS vault in Robinhood alone would not protect a second plaintext copy written by the engine. M1 must prove a supported session-only injection or equally explicit storage strategy before claiming secure credential persistence. [OpenCode provider credentials](https://opencode.ai/docs/providers/).
+OpenCode documents API-key storage in a local `auth.json` file. An OS vault in WallStreetClown alone would not protect a second plaintext copy written by the engine. M1 must prove a supported session-only injection or equally explicit storage strategy before claiming secure credential persistence. [OpenCode provider credentials](https://opencode.ai/docs/providers/).
 
 ## Initial stack
 
@@ -59,9 +59,9 @@ Technology references checked for this plan: [Node release schedule](https://nod
 
 ## Data ownership and shared memory
 
-Robinhood's local store is authoritative for task identity, explicit user constraints, project policy, normalized visible conversation, tool receipts, and checkpoints. Keep an append-only sequence of relevant events plus small current-state tables. This is a local execution journal, not a distributed event platform.
+WallStreetClown's local store is authoritative for task identity, explicit user constraints, project policy, normalized visible conversation, tool receipts, and checkpoints. Keep an append-only sequence of relevant events plus small current-state tables. This is a local execution journal, not a distributed event platform.
 
-The selected runtime has no second engine transcript. It stores normalized messages and tool-call IDs directly in Robinhood's database. Any future official-agent integration must define its separate thread ownership and import/export behavior before joining this model. Exclude credentials and internal reasoning from portable memory.
+The selected runtime has no second engine transcript. It stores normalized messages and tool-call IDs directly in WallStreetClown's database. Any future official-agent integration must define its separate thread ownership and import/export behavior before joining this model. Exclude credentials and internal reasoning from portable memory.
 
 Minimal stored concepts:
 
@@ -90,7 +90,7 @@ One deterministic decision path runs before every model request:
 
 Selection is ordinary code, not an LLM decision. Models cannot authorize a provider, a paid route, or a tool permission.
 
-Track request and token limits separately. Each observation includes its provider/account/project/model scope, shared quota group if known, time window, reset semantics, source, and confidence. Local usage is only the traffic Robinhood observed; other apps may consume the same pool. Do not label local subtraction as an authoritative account balance.
+Track request and token limits separately. Each observation includes its provider/account/project/model scope, shared quota group if known, time window, reset semantics, source, and confidence. Local usage is only the traffic WallStreetClown observed; other apps may consume the same pool. Do not label local subtraction as an authoritative account balance.
 
 Classify failures into authentication, quota, transient capacity, context/capability, tool, and local persistence errors. Authentication needs reconnect; context errors need a smaller packet or another capable model. Quota/capacity can trigger bounded retry or handoff after execution settles. Honor provider retry hints and avoid repeatedly testing exhausted routes.
 
@@ -129,7 +129,7 @@ On resume, compare workspace identity, branch/HEAD where applicable, dirty diff,
 - Bind a reused server to loopback with a per-launch secret where supported; do not expose it to the network by default.
 - Store credentials outside the repository and prompt context. Prefer an OS vault; when unavailable, offer session-only access with a clear explanation. Avoid command-line secrets and redact known credentials from logs and exports.
 - Keep session data under the OS application-data directory with restrictive permissions. Session content can contain source code; do not claim at-rest encryption unless implemented and verified.
-- Account disconnect removes stored credentials. Session deletion handles Robinhood and engine-owned records; explain backup/export copies that deletion cannot reach.
+- Account disconnect removes stored credentials. Session deletion handles WallStreetClown and engine-owned records; explain backup/export copies that deletion cannot reach.
 
 ## Keep the codebase small
 

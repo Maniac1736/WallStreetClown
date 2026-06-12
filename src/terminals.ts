@@ -24,7 +24,7 @@ export class Terminals {
     if ([...this.handles.values()].filter(handle => handle.state.status === 'running').length >= 4) throw new Error('At most four persistent terminals may run.');
     const id = randomUUID();
     store.event(session.id, 'terminal', { id, pid: 0, status: 'running' });
-    const env = Object.fromEntries(Object.entries(process.env).filter(([key, value]) => value !== undefined && !/KEY|TOKEN|SECRET|PASSWORD|CREDENTIAL|^ROBINHOOD_/i.test(key))) as Record<string, string>;
+    const env = Object.fromEntries(Object.entries(process.env).filter(([key, value]) => value !== undefined && !/KEY|TOKEN|SECRET|PASSWORD|CREDENTIAL|^WALLSTREETCLOWN_/i.test(key))) as Record<string, string>;
     const host = spawn(process.execPath, [fileURLToPath(new URL('./terminal-host.js', import.meta.url))], { cwd: session.workspace, env, windowsHide: true, detached: process.platform !== 'win32', stdio: ['ignore', 'ignore', 'ignore', 'ipc'] });
     const state: TerminalState = { id, pid: host.pid ?? 0, status: 'running' };
     let ready!: () => void, startupFailed!: (error: Error) => void;

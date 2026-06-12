@@ -12,7 +12,7 @@ import { workspaceIdentity } from '../src/tools.js';
 import type { Route } from '../src/types.js';
 
 test('compaction requires review and explicitly disables model tools', async () => {
-  const root = await mkdtemp(path.join(tmpdir(), 'robinhood-compact-')); const store = new Store(path.join(root, 'state.db'));
+  const root = await mkdtemp(path.join(tmpdir(), 'wallstreetclown-compact-')); const store = new Store(path.join(root, 'state.db'));
   try {
     const session = store.create(root, 'fixture', 'Task'); store.append(session.id, { role: 'user', content: 'Remember constraints' });
     const route: Route = { id: 'fixture', provider: 'fixture', model: 'fixture', complete: async (_messages, _signal, _text, _consent, options) => { assert.deepEqual(options?.tools, []); return { message: { role: 'assistant', content: 'Keep the constraint.' } }; } };
@@ -25,7 +25,7 @@ test('compaction requires review and explicitly disables model tools', async () 
 });
 
 test('delegated research preserves parent history and restricts the child tool catalog', async () => {
-  const root = await realpath(await mkdtemp(path.join(tmpdir(), 'robinhood-delegate-'))); const store = new Store(path.join(root, 'state.db'));
+  const root = await realpath(await mkdtemp(path.join(tmpdir(), 'wallstreetclown-delegate-'))); const store = new Store(path.join(root, 'state.db'));
   const capabilities = new Capabilities();
   try {
     const parent = store.create(root, await workspaceIdentity(root), 'Parent task');

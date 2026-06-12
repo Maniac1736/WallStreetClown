@@ -50,7 +50,7 @@ OpenRouter also accepts `OPENROUTER_API_KEY`; Gemini accepts `GEMINI_API_KEY`. E
 
 ## Free access versus account-dependent access
 
-The default automatic policy still requires verified free access. Some APIs expose models but do not expose whether an API key belongs to a free billing tier, a funded trial, or a paid account. Those connectors are **manual only**: Robinhood explains the uncertainty and requires explicit consent for each request. It does not infer a free balance from a successful login, and it does not silently spend a paid account.
+The default automatic policy still requires verified free access. Some APIs expose models but do not expose whether an API key belongs to a free billing tier, a funded trial, or a paid account. Those connectors are **manual only**: WallStreetClown explains the uncertainty and requires explicit consent for each request. It does not infer a free balance from a successful login, and it does not silently spend a paid account.
 
 If you require strictly machine-verifiable zero-price routing, decline account-dependent requests. Use provider-side free-only or spending controls where available. Request confirmation is permission to use the account; it is not verification that the request is free.
 
@@ -60,7 +60,7 @@ Uses API-key authentication in the `x-goog-api-key` header, native streaming, fu
 
 References: [GenerateContent API](https://ai.google.dev/api/generate-content), [model catalog](https://ai.google.dev/api/models), [thought signatures](https://ai.google.dev/gemini-api/docs/thought-signatures), [pricing](https://ai.google.dev/gemini-api/docs/pricing), [billing](https://ai.google.dev/gemini-api/docs/billing).
 
-The connector does not enable built-in web search, code execution, media generation, or paid fallback. Function calls go through Robinhood's local permission boundary. Account tier, remaining allowance, regional availability, and model quality still need real-account verification.
+The connector does not enable built-in web search, code execution, media generation, or paid fallback. Function calls go through WallStreetClown's local permission boundary. Account tier, remaining allowance, regional availability, and model quality still need real-account verification.
 
 ## Groq evidence — checked 2026-09-15
 
@@ -162,7 +162,7 @@ References: [API overview](https://docs.poolside.ai/api/overview), [models](http
 
 ## Alibaba Model Studio evidence - checked 2026-09-16
 
-Connect with `/connect alibaba` or `DASHSCOPE_API_KEY`. Uses the Singapore international endpoint and a conservative 64K app budget. Keys and free quotas are region-specific. Enable the provider's Free Quota Only setting where available; Robinhood cannot verify that switch or the remaining quota. Other regions are not silently substituted.
+Connect with `/connect alibaba` or `DASHSCOPE_API_KEY`. Uses the Singapore international endpoint and a conservative 64K app budget. Keys and free quotas are region-specific. Enable the provider's Free Quota Only setting where available; WallStreetClown cannot verify that switch or the remaining quota. Other regions are not silently substituted.
 
 References: [function calling](https://www.alibabacloud.com/help/en/model-studio/qwen-function-calling), [free quota controls](https://www.alibabacloud.com/help/en/model-studio/new-free-quota).
 
@@ -198,7 +198,7 @@ References: [API schema](https://aihorde.net/api/), [developer overview](https:/
 
 ## Puter evidence - checked 2026-09-16
 
-Connect with `/connect puter` or `PUTER_AUTH_TOKEN`, using a user auth token obtained through Puter's supported login flow. Robinhood does not ask for a Puter password or automatically create accounts. The experimental adapter implements the driver envelope reviewed in published `@heyputer/puter.js@2.6.3`, using direct cancellable HTTP with no SDK retries or upgrade dialogs. It currently supports the reviewed `gpt-4o-mini` route, requests normalized responses, and uses a conservative 64K budget. An experimental browser login is available through `/connect puter`; its official authme flow is wrapped with a private loopback callback and cancellation. The public endpoint timed out from the development environment; fixture coverage is not a live account test.
+Connect with `/connect puter` or `PUTER_AUTH_TOKEN`, using a user auth token obtained through Puter's supported login flow. WallStreetClown does not ask for a Puter password or automatically create accounts. The experimental adapter implements the driver envelope reviewed in published `@heyputer/puter.js@2.6.3`, using direct cancellable HTTP with no SDK retries or upgrade dialogs. It currently supports the reviewed `gpt-4o-mini` route, requests normalized responses, and uses a conservative 64K budget. An experimental browser login is available through `/connect puter`; its official authme flow is wrapped with a private loopback callback and cancellation. The public endpoint timed out from the development environment; fixture coverage is not a live account test.
 
 References: [Node authentication](https://docs.puter.com/getting-started/), [chat interface](https://docs.puter.com/AI/chat/), [response normalization](https://docs.puter.com/Objects/chatresponse/), [official SDK source](https://github.com/HeyPuter/puter/tree/main/src/puter-js).
 

@@ -134,7 +134,7 @@ function Screen({ terminal }: { terminal: Terminal }) {
   const inputStart = Math.max(0, cursor - contentWidth + 5);
   return <Box flexDirection="column" height={Math.max(10, size.rows)} paddingX={1}>
     <Box justifyContent="space-between" borderStyle="round" borderColor="#344336" paddingX={1}>
-      <Text bold color={green}>↗ ROBINHOOD <Text color="gray">{size.columns >= 65 ? '/ one task, many models' : ''}</Text></Text><Text color="#edc078">{state.mode ?? 'YOLO'}</Text>
+      <Text bold color={green}>↗ WALLSTREETCLOWN <Text color="gray">{size.columns >= 65 ? '/ one task, many models' : ''}</Text></Text><Text color="#edc078">{state.mode ?? 'YOLO'}</Text>
     </Box>
     <Box flexGrow={1}>
       <Box flexDirection="column" width={wide ? size.columns - 32 : size.columns - 2} paddingX={1}>

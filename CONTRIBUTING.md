@@ -1,6 +1,6 @@
-# Contributing to Robinhood
+# Contributing to WallStreetClown
 
-Robinhood is an early TypeScript terminal application. Start with the [plan](docs/PLAN.md), [architecture](docs/ARCHITECTURE.md), and [runtime decision](docs/decisions/0001-direct-runtime.md). Implemented connectors and remaining verification are tracked in the [integration ledger](docs/INTEGRATIONS.md).
+WallStreetClown is an early TypeScript terminal application. Start with the [plan](docs/PLAN.md), [architecture](docs/ARCHITECTURE.md), and [runtime decision](docs/decisions/0001-direct-runtime.md). Implemented connectors and remaining verification are tracked in the [integration ledger](docs/INTEGRATIONS.md).
 
 ## Development
 

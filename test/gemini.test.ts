@@ -51,7 +51,7 @@ test('Gemini tool round-trip uses approval, persists its receipt, and carries na
     res.end(event({ candidates: [{ content: { parts: requests.length === 1 ? [toolPart] : [{ text: 'Done.' }] }, finishReason: 'STOP' }], usageMetadata: { promptTokenCount: 100, candidatesTokenCount: 10, thoughtsTokenCount: 5 } }));
   });
   server.listen(0, '127.0.0.1'); await once(server, 'listening');
-  const directory = await realpath(await mkdtemp(path.join(tmpdir(), 'robinhood gemini ')));
+  const directory = await realpath(await mkdtemp(path.join(tmpdir(), 'wallstreetclown gemini ')));
   const store = new Store(path.join(directory, 'sessions.db'));
   try {
     const session = store.create(directory, await workspaceIdentity(directory), 'Write one file.');

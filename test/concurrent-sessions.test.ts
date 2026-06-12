@@ -12,7 +12,7 @@ import { ownerToken } from '../src/process-owner.js';
 import { usageSummary } from '../src/usage.js';
 
 test('concurrent stores share history and usage but protect each active task', async () => {
-  const root = await mkdtemp(path.join(tmpdir(), 'robinhood-concurrent-'));
+  const root = await mkdtemp(path.join(tmpdir(), 'wallstreetclown-concurrent-'));
   const filename = path.join(root, 'sessions.db');
   const a = new Store(filename);
   const b = new Store(filename);
@@ -37,7 +37,7 @@ test('concurrent stores share history and usage but protect each active task', a
 });
 
 test('another process can work concurrently; crash recovery touches only abandoned tasks', { timeout: 30_000 }, async () => {
-  const root = await mkdtemp(path.join(tmpdir(), 'robinhood-processes-'));
+  const root = await mkdtemp(path.join(tmpdir(), 'wallstreetclown-processes-'));
   const filename = path.join(root, 'sessions.db');
   const child = spawn(process.execPath, [fileURLToPath(new URL('./session-owner-worker.js', import.meta.url)), filename, root], { windowsHide: true, stdio: ['ignore', 'ignore', 'pipe', 'ipc'] });
   let errors = '';
@@ -69,13 +69,13 @@ test('another process can work concurrently; crash recovery touches only abandon
 });
 
 test('migration refuses a live legacy process and preserves its version', async () => {
-  const root = await mkdtemp(path.join(tmpdir(), 'robinhood-migration-'));
+  const root = await mkdtemp(path.join(tmpdir(), 'wallstreetclown-migration-'));
   const filename = path.join(root, 'sessions.db');
   const db = new Database(filename);
   try {
     db.exec('CREATE TABLE owner (id INTEGER PRIMARY KEY, token TEXT NOT NULL, pid INTEGER NOT NULL); PRAGMA user_version=1;');
     db.prepare('INSERT INTO owner VALUES (1, ?, ?)').run(ownerToken('legacy'), process.pid);
-    assert.throws(() => new Store(filename), /older Robinhood/);
+    assert.throws(() => new Store(filename), /older WallStreetClown/);
     assert.equal(db.pragma('user_version', { simple: true }), 1);
     db.prepare('DELETE FROM owner').run();
     const migrated = new Store(filename);

@@ -63,11 +63,11 @@ export async function browserLogin(flow: BrowserFlow, launch: (url: string) => P
     const validPath = Buffer.byteLength(url.pathname) === Buffer.byteLength(expectedPath) && timingSafeEqual(Buffer.from(url.pathname), Buffer.from(expectedPath));
     if (req.method !== 'GET' || req.headers.host !== new URL(origin).host || !validPath || claimed) { res.writeHead(404).end('Not found'); return; }
     const value = url.searchParams.get(flow.parameter);
-    if (url.searchParams.has('error')) { claimed = true; res.writeHead(200).end('Sign-in was cancelled. Return to Robinhood.'); reject(new Error('Sign-in was cancelled by the provider.')); return; }
+    if (url.searchParams.has('error')) { claimed = true; res.writeHead(200).end('Sign-in was cancelled. Return to WallStreetClown.'); reject(new Error('Sign-in was cancelled by the provider.')); return; }
     if (!value || value.length > 16384 || /[\r\n]/.test(value)) { res.writeHead(400).end('Missing sign-in response.'); return; }
     claimed = true;
     res.setHeader('content-type', 'text/html; charset=utf-8');
-    res.end('<!doctype html><html><title>Robinhood connected</title><body style="background:#101712;color:#eaf4eb;font:18px monospace;padding:12vh 12vw"><p style="color:#b5ef63">ROBINHOOD / ACCOUNT LINK</p><h1>Back to your terminal.</h1><p>Your sign-in response was received. Robinhood will finish linking your account.</p><p>You can close this tab.</p></body></html>');
+    res.end('<!doctype html><html><title>WallStreetClown connected</title><body style="background:#101712;color:#eaf4eb;font:18px monospace;padding:12vh 12vw"><p style="color:#b5ef63">WALLSTREETCLOWN / ACCOUNT LINK</p><h1>Back to your terminal.</h1><p>Your sign-in response was received. WallStreetClown will finish linking your account.</p><p>You can close this tab.</p></body></html>');
     accept(value);
   });
   const abort = () => reject(new Error('Browser sign-in cancelled or timed out. Your existing connection was kept.'));

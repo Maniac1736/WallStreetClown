@@ -94,7 +94,7 @@ export class Gemini implements Connector {
   }
   route(model: string): Route {
     return { id: `gemini/${model}`, provider: 'gemini', model,
-      manualApproval: 'Gemini free access depends on the Google project billing tier. Robinhood cannot verify that tier or the remaining balance. This request may consume credits or incur charges.',
+      manualApproval: 'Gemini free access depends on the Google project billing tier. WallStreetClown cannot verify that tier or the remaining balance. This request may consume credits or incur charges.',
       complete: async (messages, signal, onText, consent, options) => {
         manualConsent(consent);
         const selected = (await this.models(AbortSignal.any([signal, AbortSignal.timeout(15_000)]))).find(item => item.id === model);

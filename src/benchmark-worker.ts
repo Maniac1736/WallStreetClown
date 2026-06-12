@@ -14,7 +14,7 @@ import type { Connector } from './types.js';
 import { benchmarkPatch } from './benchmark-patch.js';
 
 async function main() {
-  if (process.env.ROBINHOOD_BENCHMARK !== 'swebench-lite') throw new Error('This worker must run in the benchmark container.');
+  if (process.env.WALLSTREETCLOWN_BENCHMARK !== 'swebench-lite') throw new Error('This worker must run in the benchmark container.');
   const task = JSON.parse(await readFile('/rh-task.json', 'utf8')) as { instance_id: string; base_commit: string; problem_statement: string; timeout_seconds: number; providers: string[] };
   if (!/^[\w.-]+$/.test(task.instance_id) || !/^[a-f0-9]{40}$/.test(task.base_commit) || typeof task.problem_statement !== 'string' || !Number.isInteger(task.timeout_seconds) || task.timeout_seconds < 1 || task.timeout_seconds > 7200 || !Array.isArray(task.providers) || !task.providers.length || task.providers.some(id => !['kilo', 'opencode', 'kilo-cli', 'openrouter'].includes(id))) throw new Error('Invalid benchmark task.');
   const workspace = await realpath('/testbed');

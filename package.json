@@ -1,5 +1,5 @@
 {
-  "name": "@amritjain0442/robinhood",
+  "name": "@maniac1736/wallstreetclown",
   "version": "0.0.1",
   "private": true,
   "description": "A local coding terminal with durable sessions and explicit model routing.",
@@ -9,7 +9,7 @@
     "node": ">=24.13.0 <25"
   },
   "bin": {
-    "robinhood": "dist/src/cli.js"
+    "wallstreetclown": "dist/src/cli.js"
   },
   "scripts": {
     "build": "tsc",
